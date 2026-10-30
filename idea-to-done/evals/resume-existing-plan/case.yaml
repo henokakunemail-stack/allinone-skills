@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: resume-existing-plan
+expected_outcome: |
+  The agent recognizes an existing idea-to-done project (docs/PLAN.md present, T1.1 and T1.2 done), reports where it stands in a few sentences, does NOT re-run discovery or ask the user discovery questions, executes T2.1 and T2.2 with evidence, updates PLAN.md statuses, runs Phase 4 verification writing docs/VERIFICATION.md, and does not add anything outside the Scope Contract (no delete/edit/priority/colors).
+context:
+  scaffold_script: place-files.sh

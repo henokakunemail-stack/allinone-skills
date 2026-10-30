@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: soft-yes-becomes-assumption
+expected_outcome: |
+  The agent runs discovery from the answers already given (no re-asking), writes docs/PRD.md and docs/PLAN.md (and ARCHITECTURE.md if it judges there are multiple components), and stops at approval gate 1 without writing any source code. "Grafik boleh kalau gampang" is recorded as an assumption or parked idea, not as a requirement. Every requirement carries the user's words; every task has a trace, Deps, Files and a concrete Accept line.

@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: s5-non-software-proposal
+expected_outcome: |
+  The agent treats this as a non-software deliverable: docs/BRIEF.md (not PRD) and docs/OUTLINE.md, no ARCHITECTURE/STRUCTURE/DESIGN. The proposal is about two pages, centred on cost and clear reasoning, with correct arithmetic (3 x 14.5M = 43.5M within budget; 3 x 16M = 48M exceeds the 45M budget). QA-style verification re-checks every number and states the 48M option exceeds budget. No invented data (no made-up ROI figures beyond what the user gave, or clearly labelled assumptions).

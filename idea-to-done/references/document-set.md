@@ -1,0 +1,106 @@
+# The document set
+
+Each document has one job. This file says what goes in each, who reads it, and how to keep it honest. Templates are in `assets/`; copy the template, keep its headings, fill the sections.
+
+Rule of thumb before creating any file: name the phase that will read it. If no later phase reads it, do not create it.
+
+## Core documents
+
+### PRD.md (software) / BRIEF.md (everything else)
+
+**Answers:** What are we making and why, and where does it stop?
+**Written:** Phase 2, from discovery answers. **Read by:** Phase 2 planning, every Phase 3 scope guard, Phase 4 layer 1.
+**Changes only** through an agreed plan revision. If execution reveals the PRD is wrong, stop and propose the change; do not edit it quietly.
+
+Sections:
+- **Idea summary**: one paragraph in your words. If the user reads it and says "yes, exactly", you understood.
+- **Requirements**: `R1`, `R2`, ... Each one derived from something the user said. Keep their words next to it in parentheses. A requirement with no source is an invention.
+- **Success criteria**: observable, checkable statements. "The user can upload a CSV and see a chart within 5 seconds", not "it works well". Each criterion references the requirements it proves.
+- **Scope Contract**:
+  - *In scope*: only items that map to a requirement.
+  - *Out of scope*: explicit list. Always consider the usual AI additions (authentication, multi-user, dark mode, logging, analytics, CI/CD, deployment, extra docs, refactoring of existing code, mobile layout, i18n, admin panel, notifications, tests beyond what verification needs) and list every one the user did not ask for.
+  - *Assumptions*: `A1`, `A2`, ... Everything you decided without being told, with the reason. These are the user's chance to catch a wrong guess before it becomes code.
+- **Open questions** (optional): things that could not be resolved and are parked, with the fallback you will use.
+- **Version and change log**: `Version: 1.0` at the top; every post-approval change appends a line (version, date, what changed, source, affected tasks) per `revision-protocol.md`. Requirement IDs are never reused; a replaced requirement is marked `(superseded in vX by Rn)`, not deleted.
+
+Owner: Product Manager. Nobody else edits this file.
+
+### PLAN.md
+
+**Answers:** How will we get there, in what order, and where are we now? This is also the roadmap; do not create a separate ROADMAP.md.
+**Written:** Phase 2. **Updated:** every task in Phase 3, every round in Phase 4. **Read by:** every phase, every resuming agent, `scripts/status.py`. **Owner:** Engineering Manager, the sole writer; other roles report and it records.
+
+Sections:
+- **Status line** at the top: `Status: planning | awaiting-approval | executing | executing (parallel) | verifying | fixing | done`, plus the current phase. The first thing a resuming agent reads.
+- **Document index**: which documents exist in `docs/`, one line each on what it is for. A resuming agent uses this to know what to read.
+- **Approach**: the method in a paragraph. For software, name the stack and point to ARCHITECTURE.md for detail.
+- **Phases and tasks**. Task format (keep it exact; the status script parses it):
+  ```
+  - [ ] T1.1 Short imperative title → R2, R5
+    - Deps: T0.1, T0.2   (or — if none; tasks that must be [x] first)
+    - Files: src/x/, tests/test_x.py   (what this task owns; nothing else may be edited)
+    - Accept: how this task is verified, concretely — must pass the stranger test (one command or action, checkable by someone who never saw the project)
+    - Risk: (optional) why this is uncertain
+    - Note: (filled on completion) one-line result with evidence
+  ```
+  Status markers: `[ ]` pending, `[~]` in progress, `[x]` done, `[!]` blocked (say why in Note). `Deps` and `Files` are what make parallel execution safe (see `parallel-execution.md`); write them even in sequential mode so a later session can switch.
+- **Integration** phase: created in parallel mode when a wave breaks the build; tasks `I1`, `I2`, ...
+- **Fixes** phase: created in Phase 4 if issues are found; tasks `F1`, `F2`, ... with the same format, each tracing to the VERIFICATION.md issue it fixes (`→ V3`).
+- **Verification plan**: written in Phase 2, before anything is built, so that Phase 4 is not designed by someone who already knows what was built. Lists what will be run and what will be inspected.
+
+### DECISIONS.md
+
+**Answers:** Why is it the way it is?
+**Written:** Phase 2 (initial choices) and Phase 3 (as they happen). **Read by:** resuming agents, Phase 4, the user when they wonder "why did it do that".
+
+One entry per decision: `D1`, date, the decision, the alternatives considered, the reason, which task triggered it. Short. The point is that nobody has to re-derive or second-guess the choice later.
+
+### IDEAS.md
+
+**Answers:** What did we think of and deliberately not do?
+**Written:** any phase. **Read by:** the user at approval gate 2, and whenever they plan the next version.
+
+One line per idea: what it is, why it came up, why it is out of scope (usually "not in the Scope Contract"). No design, no elaboration. This file is the pressure valve that makes "do not add features" sustainable: the idea is captured, so there is no urge to build it.
+
+### VERIFICATION.md
+
+**Answers:** Has it actually been proven to work, and what was found?
+**Written:** Phase 4. **Read by:** the user at approval gate 2, the next verification round.
+
+Sections: scope of the round (what was verified, by whom, fresh-eyes or not), the requirement-to-evidence table, the result-to-task trace (with untraceable items flagged as scope creep), functional tests run with their actual output, edge cases tried, document accuracy check, issues `V1`, `V2`, ... each with severity, repro, and the fix task it became, and finally accepted limitations.
+
+## Conditional documents
+
+### ARCHITECTURE.md
+
+**Create when:** software with more than one component (a frontend and a backend, a CLI and a library, a service and a database, a pipeline with stages). A single-file script does not need one.
+**Written:** Phase 2, before approval. **Read by:** Phase 3 tasks, Phase 4 layer 1.
+
+Sections: components and their responsibilities, data flow between them (a simple text diagram is fine), stack with one-line reasons, external dependencies and why each is needed, constraints inherited from requirements (offline, single-user, etc.), and what is explicitly not part of the architecture. Every library or service named must be verified to exist and fit; mark anything not yet verified as `(unverified)` and verify before the task that uses it.
+
+### STRUCTURE.md
+
+**Create when:** software. **Written:** the first execution task that creates files. **Updated:** in the same step as any task that adds, moves, or removes files. **Read by:** every later task, Phase 4.
+
+A tree of the project with one line per folder and per significant file saying what it is responsible for. This is the document that rots fastest; the rule "update it in the same step" exists because "I will update it at the end" never happens. Phase 4 compares it to the real tree.
+
+### DESIGN.md
+
+**Create when:** there is a user interface of any kind (web, mobile, desktop, CLI with meaningful interaction). Do not create it for a backend-only or script project.
+**Written:** Phase 2. **Read by:** UI tasks in Phase 3, Phase 4 functional testing.
+
+Sections: screens or views (list, purpose of each), user flows for the main tasks from the PRD (step by step), visual direction (tone, typography, color, density; reference existing material the user supplied), components reused across screens, and states that must exist (empty, loading, error). Only screens that trace to a requirement.
+
+### OUTLINE.md
+
+**Create when:** the deliverable is a document, presentation, course, report, or other non-software artifact.
+**Written:** Phase 2. **Read by:** Phase 3 writing tasks, Phase 4 review.
+
+The structure of the deliverable section by section: purpose of each section, key points it must make, source material it draws on, approximate length. Each section traces to a requirement or success criterion.
+
+## Keeping documents honest
+
+- A document that disagrees with reality is deleted or fixed in Phase 4; it is never left standing.
+- Facts appear in one document and are referenced from others. Requirements live in PRD; tasks reference them by ID rather than restating them.
+- Documents are written for the next reader, who may be a different agent with no memory of this conversation. Write what they need to act, not a diary of what you did.
+- Do not create additional documents (CHANGELOG, CONTRIBUTING, API.md, ...) unless a requirement asks for them. If you think one is needed, it goes in IDEAS.md.

@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: s2-scope-change-mid-flight
+expected_outcome: |
+  The agent applies the revision protocol: PRD version bumps to 1.1 with a change-log line quoting the user's words; a new requirement (R6) is added with the user's words; the Scope Contract is updated (delete was listed Out of scope in v1.0 and must be moved to In scope); new tasks trace to R6; DECISIONS records the revision; R1-R5 IDs are unchanged. It then implements and verifies rm, and still adds nothing else.
+context:
+  scaffold_script: place-files.sh

@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: s1-contradictory-requirements
+expected_outcome: |
+  The agent notices that 'fully offline with zero internet' and 'always real-time synced to a central server' with 'no self-run server and no paid cloud' conflict. It surfaces the conflict explicitly to the user (in the gate-1 summary and in the PRD, e.g. Open questions) and either proposes options or records a clearly labelled assumption. It does not silently pick one side, and it does not list both as plain satisfiable requirements.

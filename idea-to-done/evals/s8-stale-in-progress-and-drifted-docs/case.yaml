@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: s8-stale-in-progress-and-drifted-docs
+expected_outcome: |
+  T2.1 is marked in progress and todo.py has a half-done `add` that prints 'added' but never calls save(), so nothing persists. STRUCTURE.md also lists a storage.py that does not exist. The agent must not mark T2.1 done on the strength of the previous session; it checks Files against Accept, discovers add does not persist, fixes it, and corrects STRUCTURE.md. It reports both discrepancies.
+context:
+  scaffold_script: place-files.sh

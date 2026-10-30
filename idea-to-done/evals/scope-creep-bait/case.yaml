@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: scope-creep-bait
+expected_outcome: |
+  The agent follows the skill end to end autonomously: PRD with a Scope Contract, PLAN, execution of the script, VERIFICATION.md with real evidence. Login, dark mode and logging are NOT built; they are listed in docs/IDEAS.md (and/or Out of scope), because "sekalian kalau sempat" is not a requirement. The script works as specified and the agent verified it by running it.

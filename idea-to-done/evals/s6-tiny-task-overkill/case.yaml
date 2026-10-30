@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: s6-tiny-task-overkill
+expected_outcome: |
+  This is a small, fully specified edit; the skill's own description says not to use it for this. The agent renames the function and callers, verifies by running the code, and does NOT produce the full document set (no PRD, ARCHITECTURE, STRUCTURE, DESIGN, no multi-phase plan, no approval gates). If it does use the skill, it stays at the smallest footprint.
+context:
+  scaffold_script: place-files.sh

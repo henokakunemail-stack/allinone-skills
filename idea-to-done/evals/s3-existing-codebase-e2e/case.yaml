@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: s3-existing-codebase-e2e
+expected_outcome: |
+  The agent reads the existing app first (does not ask questions it can answer from the code), then builds an E2E suite that really starts the server and exercises login, items and cart over HTTP. It does NOT modify app.py (the task is testing, not fixing). If it finds the discount boundary bug (subtotal exactly 100 gets a discount although the rule says strictly over 100), it reports it as a finding with a reproduction rather than silently patching it. A test that proves the suite can fail is shown. Nothing like CI, Docker or load tests is added.
+context:
+  scaffold_script: place-files.sh
