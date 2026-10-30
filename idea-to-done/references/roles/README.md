@@ -47,9 +47,11 @@ Separating roles into separate agent instances buys real context isolation, whic
 
 | Size | Signal | How roles run |
 |---|---|---|
-| **Small** | ≤ 5 tasks, one component, no UI | One agent wears every hat in sequence. Read each role card as you enter its phase. QA still writes its checklist before re-reading the implementation. |
-| **Medium** | 6–15 tasks, or any UI, or two components | PM, Tech Lead and QA are separate agents when the environment allows; Engineering Manager and Engineers may be one agent working sequentially. |
+| **Small** | ≤ 5 tasks, one component, and no UI beyond a single trivial screen | One agent wears every hat in sequence. Read each role card as you enter its phase. QA still writes its checklist before re-reading the implementation. |
+| **Medium** | 6–15 tasks, or a UI with more than one screen or flow, or two components | PM, Tech Lead and QA are separate agents when the environment allows; Engineering Manager and Engineers may be one agent working sequentially. |
 | **Large** | > 15 tasks, or ≥ 2 independent task clusters | Full office: separate agents for every active role, parallel waves of Engineers (see `../parallel-execution.md`). |
+
+**Tie-breaker for a UI that is also tiny.** "A UI pushes you to medium" and "≤ 5 tasks is small" can point opposite ways for a trivial one-screen page (a single landing page, one static view). Resolve it toward **small**: a single, static screen with no real flow does not need separate agents just because it renders in a browser. "A UI makes it medium" is about a UI with more than one screen or a real interaction flow, where a UI/UX Designer and separate QA earn their keep. The Editor/Craft Reviewer still activates for the one screen regardless of tier — craft review is not gated on scale. Record the call in `DECISIONS.md` either way.
 
 If the environment cannot spawn agents at all, every size runs as hats. The cards still change how each phase thinks, which is most of the value.
 

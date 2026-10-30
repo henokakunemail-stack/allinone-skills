@@ -2,7 +2,7 @@
 name: idea-to-done
 description: Turns a raw idea (an app, a tool, a work deliverable, a document, a research task, anything with an outcome) into a clarified foundation (PRD), a traceable plan, real execution, and deep independent verification, run like a small office of roles (product manager, tech lead, engineers, QA) that build only what the user asked for and state only what they verified. Use this whenever the user brings a new idea or project and wants it built or done, says things like "I want to make...", "help me build...", "I have an idea for...", "bikin...", "buatkan...", "saya ingin membuat...", or asks you to plan and then execute something, even if they never say "plan". Also use it to resume a project whose docs/ folder already contains PLAN.md. Do not use it for a single small edit, a quick question, or a task the user has already fully specified in one line.
 metadata:
-  version: "1.3.0"
+  version: "1.4.0"
   docs-dir: docs
 ---
 
@@ -18,7 +18,7 @@ The work is done by roles. A role is a mandate (what it is accountable for), a s
 
 Core roles on every project: **Product Manager** (owns the Scope Contract), **Tech Lead** (technical coherence, verified stack, checkable criteria, integration), **Engineering Manager** (orchestrates, sole writer of PLAN/DECISIONS/IDEAS), **Engineer** (one task, its files, nothing more), **QA Engineer** (proves it broken; never saw the build). Specialists (UI/UX Designer, Technical Writer, Researcher, Security Reviewer, DevOps) exist only when the Scope Contract gives them work.
 
-`references/roles/README.md` has the roster, which roles are active in which phase, and the **scale rule**: small projects (≤5 tasks) run as one agent wearing each hat in turn; medium (6–15 tasks, or any UI) separate PM, Tech Lead and QA into their own agents when the environment allows; large (>15 tasks or ≥2 independent clusters) run the full office with parallel Engineers. Decide the tier in Phase 2 and record it in `DECISIONS.md`. Whenever a phase names a role below, read that role's card in `references/roles/` before acting as it; when handing work to a separate agent, put the card in its brief verbatim.
+`references/roles/README.md` has the roster, which roles are active in which phase, and the **scale rule**: small projects (≤5 tasks, no UI beyond a single trivial screen) run as one agent wearing each hat in turn; medium (6–15 tasks, or a UI with more than one screen or flow) separate PM, Tech Lead and QA into their own agents when the environment allows; large (>15 tasks or ≥2 independent clusters) run the full office with parallel Engineers. A tiny one-screen UI stays small (see the tie-breaker in the roster); the Editor/Craft Reviewer still activates for it regardless of tier. Decide the tier in Phase 2 and record it in `DECISIONS.md`. Whenever a phase names a role below, read that role's card in `references/roles/` before acting as it; when handing work to a separate agent, put the card in its brief verbatim.
 
 ## The document set
 
@@ -51,7 +51,7 @@ Templates are in `assets/`; `references/document-set.md` describes each document
 
 Role: Engineering Manager. Check whether `docs/PLAN.md` exists.
 
-- **It exists**: read it, then the documents it indexes (at minimum PRD/BRIEF, DECISIONS, IDEAS). Tell the user in two or three sentences where the project stands (phase, what is done, what is next) and continue from exactly that point. Do not restart discovery. Do not re-ask answered questions. Treat any `[~]` task as unfinished: check its `Files` against its `Accept` line before deciding to continue, redo, or mark it done. If something in the plan now looks wrong, say so and propose a revision rather than silently deviating. If the status line carries a `Waiting since:` far in the past (weeks, not hours), say so explicitly before re-presenting the same gate — do not just silently proceed as if no time passed. `python <this skill>/scripts/status.py` prints a quick summary.
+- **It exists**: read it, then the documents it indexes (at minimum PRD/BRIEF, DECISIONS, IDEAS). Tell the user in two or three sentences where the project stands (phase, what is done, what is next) and continue from exactly that point. Do not restart discovery. Do not re-ask answered questions. Treat any `[~]` task as unfinished: check its `Files` against its `Accept` line before deciding to continue, redo, or mark it done. If something in the plan now looks wrong, say so and propose a revision rather than silently deviating. If the status line carries a `Waiting since:` far in the past (weeks, not hours), say so explicitly before re-presenting the same gate — do not just silently proceed as if no time passed. `python <this skill>/scripts/status.py` prints a quick summary, but it only reads the checkboxes in PLAN.md — it is a summary, not the source of truth. It cannot see that a `[ ]` task is actually built on disk, or that a `[x]` task's files are gone. On resume, read the actual files a task owns and check them against its `Accept` line; trust what is on disk over what the checkbox claims when they disagree, and record the drift.
 - **It does not exist**: this is a new idea. Go to Phase 1.
 
 ## Phase 1: Discovery

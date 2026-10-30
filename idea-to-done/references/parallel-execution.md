@@ -76,6 +76,8 @@ Notes: <anything the next task needs to know>
 
 If the environment supports isolated workspaces (git worktrees, branches, separate directories), give each worker one and merge after the wave. If it does not, the Files ownership rule is the only thing preventing conflicts, so enforce it strictly.
 
+**Snapshot each task's Files before dispatch.** The "revert a failed worker's Files before redispatch" rule below only works if there is a pre-task version to revert to. Under version control there is (check out the pre-task commit). Without it, there is nothing to revert to unless you captured it first — so before dispatching a worker, if its Files are not under version control, copy them somewhere outside the project (or note that they did not exist yet). Do this at dispatch time, not at failure time; at failure time the clean version is already gone.
+
 ## Single writer: the orchestrator (Engineering Manager)
 
 Only the orchestrator writes `PLAN.md`, `DECISIONS.md`, `IDEAS.md`, and `STRUCTURE.md`. Two agents editing the same document at the same time will lose updates.

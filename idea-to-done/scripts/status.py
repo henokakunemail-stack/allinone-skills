@@ -2,9 +2,10 @@
 """Print a progress summary of an idea-to-done project from docs/PLAN.md.
 
 Usage:
-    python status.py                 # uses ./docs/PLAN.md
-    python status.py path/to/project # uses path/to/project/docs/PLAN.md
-    python status.py --json          # machine-readable output
+    python status.py                      # uses ./docs/PLAN.md
+    python status.py path/to/project      # uses path/to/project/docs/PLAN.md
+    python status.py path/to/project FILE # scan one explicit plan file (e.g. a split phase file)
+    python status.py --json               # machine-readable output
 
 Standard library only. The parser relies on the task format from
 assets/PLAN.template.md:
@@ -14,6 +15,12 @@ assets/PLAN.template.md:
       - Files: src/x/
       - Accept: ...
       - Note: ...
+
+A large plan may be split (see references/document-set.md "Splitting a large plan"):
+PLAN.md becomes a short index and each phase's tasks move into docs/plan/phase-<n>.md.
+When PLAN.md holds no task lines of its own but links to such phase files, this script
+follows those links and scans them in order, so `python status.py .` keeps working
+against a split plan. A second argument points it at one plan file explicitly instead.
 """
 import json
 import re
@@ -75,6 +82,70 @@ def parse_plan(text):
     return status_line, tasks, unparsed
 
 
+# Markdown links to split phase files, e.g. [Phase 2](plan/phase-2.md) or a bare
+# docs/plan/phase-2.md written inline. Matches a relative path ending in .md inside a
+# plan/ directory. Used only when PLAN.md itself holds no task lines.
+PHASE_LINK_RE = re.compile(r"\(?\b((?:docs/)?plan/[^()\s]+\.md)\)?")
+
+
+def phase_files_from_index(plan_path, text):
+    """Ordered, de-duplicated list of existing split phase files linked from an index PLAN.md.
+
+    Link paths may be written relative to docs/ (plan/phase-1.md) or to the project root
+    (docs/plan/phase-1.md); both resolve to the same file under the plan's own docs/ dir.
+    """
+    docs_dir = plan_path.parent
+    seen, found = set(), []
+    for m in PHASE_LINK_RE.finditer(text):
+        rel = m.group(1)
+        rel = rel[len("docs/"):] if rel.startswith("docs/") else rel
+        cand = (docs_dir / rel).resolve()
+        if cand == plan_path.resolve() or cand in seen:
+            continue
+        if cand.exists():
+            seen.add(cand)
+            found.append(cand)
+    return found
+
+
+def load_plan_text(plan_path):
+    """Return (combined_text, sources).
+
+    If PLAN.md has task lines of its own, use it unchanged (flat plan, original behaviour).
+    Otherwise, if it is an index linking to split phase files, concatenate the index's own
+    header (for its Status line) with each phase file's body, in link order, so the rest of
+    the parser is unaffected.
+    """
+    text = plan_path.read_text(encoding="utf-8")
+    if any(TASK_RE.match(line) for line in text.splitlines()):
+        return text, [plan_path]
+    phase_files = phase_files_from_index(plan_path, text)
+    if not phase_files:
+        return text, [plan_path]
+    parts = [text] + [pf.read_text(encoding="utf-8") for pf in phase_files]
+    return "\n".join(parts), [plan_path] + phase_files
+
+
+def count_ideas(ideas_path):
+    """Count real parked ideas in IDEAS.md, skipping template placeholder bullets.
+
+    The shipped template seeds an example bullet (`- <idea>. Came up in T<n>...`), and
+    agents sometimes leave a parenthetical placeholder like `- (none yet)`. Neither is a
+    real idea, so a bullet whose content starts with `<` or `(` is not counted.
+    """
+    if not ideas_path.exists():
+        return 0
+    n = 0
+    for l in ideas_path.read_text(encoding="utf-8").splitlines():
+        if not l.startswith("- "):
+            continue
+        content = l[2:].lstrip()
+        if content.startswith("<") or content.startswith("("):
+            continue
+        n += 1
+    return n
+
+
 def known_task_ids(tasks):
     return {t["id"] for t in tasks}
 
@@ -102,10 +173,15 @@ def _overlap(a, b):
 
 
 def claimed_files(tasks):
-    """Files already owned by work in flight: done and in-progress tasks both hold their Files."""
+    """Files owned by work actually in flight right now: only in-progress (`[~]`) tasks.
+
+    A done (`[x]`) task is finished and nobody is writing its Files any more, so those
+    files should not lock a new wave — holding them only under-reports what can run in
+    parallel. Only `[~]` work genuinely conflicts with a fresh task that shares its Files.
+    """
     claimed = []
     for t in tasks:
-        if t["status"] in ("done", "in_progress"):
+        if t["status"] == "in_progress":
             claimed.extend(t["files"])
     return claimed
 
@@ -134,12 +210,24 @@ def main(argv):
     as_json = "--json" in argv
     args = [a for a in argv if not a.startswith("--")]
     root = Path(args[0]) if args else Path(".")
-    plan = root / "docs" / "PLAN.md"
-    if not plan.exists():
-        print(f"No plan found at {plan}. Not an idea-to-done project, or docs live elsewhere.", file=sys.stderr)
-        return 1
+    explicit = Path(args[1]) if len(args) > 1 else None
 
-    status_line, tasks, unparsed = parse_plan(plan.read_text(encoding="utf-8"))
+    if explicit is not None:
+        # Point at one plan file directly (e.g. a single split phase file). Accept an
+        # absolute/cwd-relative path, or one relative to the project root.
+        plan = explicit if explicit.is_absolute() or explicit.exists() else (root / explicit)
+        if not plan.exists():
+            print(f"No plan file at {plan}.", file=sys.stderr)
+            return 1
+        plan_text, sources = plan.read_text(encoding="utf-8"), [plan]
+    else:
+        plan = root / "docs" / "PLAN.md"
+        if not plan.exists():
+            print(f"No plan found at {plan}. Not an idea-to-done project, or docs live elsewhere.", file=sys.stderr)
+            return 1
+        plan_text, sources = load_plan_text(plan)
+
+    status_line, tasks, unparsed = parse_plan(plan_text)
     counts = {k: 0 for k in STATUS_NAMES.values()}
     for t in tasks:
         counts[t["status"]] += 1
@@ -149,10 +237,7 @@ def main(argv):
     bad_deps = unknown_deps(tasks)
     docs = sorted(p.name for p in (root / "docs").glob("*.md"))
     ideas = root / "docs" / "IDEAS.md"
-    n_ideas = (
-        sum(1 for l in ideas.read_text(encoding="utf-8").splitlines() if l.startswith("- ") and "<idea>" not in l)
-        if ideas.exists() else 0
-    )
+    n_ideas = count_ideas(ideas)
 
     if as_json:
         print(json.dumps({
@@ -163,11 +248,15 @@ def main(argv):
             "untraced": [t["id"] for t in untraced], "docs": docs, "ideas_parked": n_ideas,
             "unknown_deps": [{"task": tid, "missing_dep": d} for tid, d in bad_deps],
             "unparsed_lines": [{"line": n, "text": t} for n, t in unparsed],
+            "sources": [str(s) for s in sources],
         }, indent=2, ensure_ascii=False))
         return 0
 
     total = len(tasks)
-    print(f"Plan: {plan}")
+    if len(sources) > 1:
+        print(f"Plan: {plan} (index) + {len(sources) - 1} phase files")
+    else:
+        print(f"Plan: {plan}")
     print(f"Status: {status_line or '(no status line)'}")
     print(f"Tasks: {counts['done']}/{total} done · {counts['in_progress']} in progress · "
           f"{counts['blocked']} blocked · {counts['pending']} pending")
