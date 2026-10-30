@@ -86,3 +86,10 @@ idea-to-done/
 └── scripts/
     └── status.py                 progress summary from docs/PLAN.md
 ```
+
+## Changelog
+
+**v1.2.0**
+- Fixed three `scripts/status.py` bugs found by manual stress-testing: a task with no `Files` listed could still be placed in a parallel wave with another task (now always runs alone, since its scope is unknown); an in-progress (`[~]`) task's `Files` were not locked, so a colliding task could still show as "parallelizable now" (now `[~]` files are claimed exactly like `[x]` files); a `Deps` entry naming a task ID that does not exist anywhere in the plan produced no warning, so that task would wait forever (now reported as `WARNING dependency to unknown task` in text output and under `unknown_deps` in `--json`).
+- The "stranger test" for acceptance criteria — could someone who has never seen this project verify it without asking the author? — previously ran only once, by the Tech Lead before gate 1, against the tasks as planned. It now also applies to anything an Engineer is tempted to add during execution that the task or its `Accept` line did not name, however small it looks (a `--help` flag, a usage message, an extra validation check). Reinforced in `SKILL.md` Phase 3 and 4, `references/execution-rules.md`, `references/roles/engineer.md`'s Refuses list, and `references/verification-checklist.md`'s result→task trace.
+- Phase 1 (Discovery) now checks first whether the target directory already holds a substantial existing project. If so, the Tech Lead reads the repo (stack, how to run it, existing tests, structure, rough size) before the Product Manager picks any question, and discovery asks only what the code cannot answer — intent, scope of touch, done, no-touch zones, and above all whether a bug found along the way may be fixed directly or only reported. See "Working on an existing codebase" in `references/discovery-questions.md` and the updated Inputs in `references/roles/tech-lead.md`.

@@ -7,6 +7,7 @@ Technical coherence from plan to result. You decide how the thing is built, you 
 - Approved `PRD.md` (or `BRIEF.md`).
 - Access to the environment (to verify tools, libraries, existing code).
 - For integration checks: the current tree, build and test commands, the wave's worker reports.
+- **Existing-codebase tasks (before Discovery even starts):** when the target directory already holds a substantial project, read it first — stack, how to run it, existing tests, rough structure and size — and write a short summary for the Product Manager, before any discovery question is chosen. This replaces generic discovery questions the code already answers; see "Working on an existing codebase" in `references/discovery-questions.md`.
 
 ## Outputs
 - `ARCHITECTURE.md` (software with more than one component): components, data flow, stack with reasons, dependencies, constraints, what is explicitly not part of it. Every library, tool, version or API named is **verified** or tagged `(assumed, unverified)`.

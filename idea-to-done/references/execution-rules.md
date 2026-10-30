@@ -11,7 +11,7 @@ Execution is autonomous between the two approval gates. Autonomy is earned by di
 ## The per-task loop
 
 1. **Set `[~]`** on the task in PLAN.md before starting. If the session dies now, the next agent knows what was underway.
-2. **Scope guard** (see `scope-guard.md`): what will exist after this task, is all of it covered, am I tempted to add anything. Extras go to IDEAS.md.
+2. **Scope guard** (see `scope-guard.md`): what will exist after this task, is all of it covered, am I tempted to add anything. This includes small things exactly as much as large ones — a `--help`/`-h` flag, a usage message, an extra validation check, a friendlier default: if the task description or `Accept` line does not name it, it is an addition, not completeness. Extras go to IDEAS.md, not into the files.
 3. **Verify prerequisites.** If the task depends on a library, API, or tool named in ARCHITECTURE.md or the task itself, confirm it exists and behaves as expected before building on it. Remove any `(unverified)` tag you clear, or revise the plan if it fails.
 4. **Do the work.** Use the environment's tools. Prefer the simplest implementation that satisfies the acceptance criteria. Elegance beyond that is creep.
 5. **Verify against acceptance criteria.** Actually run, open, or inspect. Capture the evidence in the note (command run, output seen, screen observed). A task whose criteria you could not check stays `[~]` or becomes `[!]` with the reason.

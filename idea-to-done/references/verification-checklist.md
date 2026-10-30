@@ -22,7 +22,7 @@ Build two tables in VERIFICATION.md.
 
 **Requirement → evidence.** For each R-item and each success criterion: how was it checked, what was observed, pass/fail. "Implemented in T2.1" is not evidence; "ran `X`, saw `Y`" is.
 
-**Result → task.** Walk the actual result: every file, feature, endpoint, screen, section, or capability of note. For each, name the task that produced it. Anything with no task is **scope creep**: list it, even if it is useful. The user decides whether it stays (and if so, it gets retroactively added to the PRD and PLAN) or goes.
+**Result → task.** Walk the actual result: every file, feature, endpoint, screen, section, or capability of note — including small ones easy to wave through, such as a CLI flag (`--help`, `-v`, `--dry-run`), an extra validation message, or a default nobody specified. For each, name the task that produced it. Anything with no task is **scope creep**: list it, even if it is useful or tiny. The user decides whether it stays (and if so, it gets retroactively added to the PRD and PLAN) or goes.
 
 **Document accuracy.** Compare each document to reality:
 - STRUCTURE.md vs the real file tree.

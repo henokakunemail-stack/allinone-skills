@@ -62,6 +62,20 @@ Use the universal set, then ask:
 - **O1**: What is the closest thing to this that already exists, and how is yours different?
 - **O2**: What are the steps as you imagine them right now? (Lets you spot gaps in their mental model rather than inventing your own.)
 
+## Working on an existing codebase
+
+When the target directory already holds a substantial project (not just this skill's own `docs/`), the Tech Lead reads the repo first — stack, how to run it, existing tests, structure, rough size — and hands the Product Manager a short summary. Do not re-ask what that summary already answers (language, framework, how to run it, how big it is). Ask instead what the code cannot tell you:
+
+- **E1. Intent**: What are you trying to accomplish here — fix something specific, add something, understand it, test it, clean it up? What prompted this now?
+- **E2. Scope of touch**: Should I change code, or only look/report/test without changing anything?
+- **E3. Bugs found along the way**: If I find a bug or problem while doing this, may I fix it directly, or should I only report it and leave it for you to decide? (This is the single most important question here — it decides half the Scope Contract. Default to "report only" if the user has not said.)
+- **E4. Done**: What does finished look like for this specific request, concretely — not for the project as a whole?
+- **E5. No-touch zones**: Anything in this codebase I must not change, even if it looks related (a module someone else owns, code mid-migration, generated files)?
+
+Good to know:
+- Is there a convention or style guide the code already follows that I should match rather than impose my own?
+- Any existing docs (README, ARCHITECTURE notes, tickets) that already state the goal, so I don't duplicate discovery that already happened?
+
 ## Turning answers into requirements
 
 Each answer becomes one or more numbered requirements. Keep the user's words next to the requirement:

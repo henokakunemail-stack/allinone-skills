@@ -2,7 +2,7 @@
 name: idea-to-done
 description: Turns a raw idea (an app, a tool, a work deliverable, a document, a research task, anything with an outcome) into a clarified foundation (PRD), a traceable plan, real execution, and deep independent verification, run like a small office of roles (product manager, tech lead, engineers, QA) that build only what the user asked for and state only what they verified. Use this whenever the user brings a new idea or project and wants it built or done, says things like "I want to make...", "help me build...", "I have an idea for...", "bikin...", "buatkan...", "saya ingin membuat...", or asks you to plan and then execute something, even if they never say "plan". Also use it to resume a project whose docs/ folder already contains PLAN.md. Do not use it for a single small edit, a quick question, or a task the user has already fully specified in one line.
 metadata:
-  version: "1.1.0"
+  version: "1.2.0"
   docs-dir: docs
 ---
 
@@ -58,8 +58,9 @@ Role: Engineering Manager. Check whether `docs/PLAN.md` exists.
 
 Role: Product Manager. Goal: understand what the user actually needs well enough that a plan built on it will not be wrong in its foundations. Not everything. Enough.
 
+0. **Existing-codebase check, before picking any question.** If the target directory already holds a substantial project — a git repo, `package.json`/`pyproject.toml`/etc., real application code, not just this skill's own `docs/PLAN.md` (that case is Phase 0's) — hand it to the Tech Lead first: read the stack, how to run it, existing tests, structure, and rough size, and write a short summary for the Product Manager before any question is chosen. See "Working on an existing codebase" in `references/discovery-questions.md`.
 1. **Classify the idea** silently as `software`, `work-deliverable`, `content`, `research`, or `other`. The category picks the question bank, the conditional documents and the specialists.
-2. **Read `references/discovery-questions.md`** and select **4 to 7 questions**. Always include the universal questions not already answered by what the user said, plus the category's assumption killers. Skip anything the user already told you.
+2. **Read `references/discovery-questions.md`** and select **4 to 7 questions**. Always include the universal questions not already answered by what the user said or by the Tech Lead's repo summary, plus the category's assumption killers. Skip anything already answered by either. For an existing codebase, lean on the "Working on an existing codebase" question set instead of repeating generic bank questions the code already answers — above all, whether a bug or problem found along the way may be fixed outright or must only be reported.
 3. **Ask them in a single round.** If your environment offers a structured multiple-choice question tool, use it; otherwise ask in plain text, numbered, with suggested options where that helps. One line of context first.
 4. **One follow-up round at most**, only if an answer opened a real gap.
 5. **Turn answers into numbered requirements** (R1, R2, ...), keeping the user's words next to each. A soft answer ("if it's easy", "maybe", "sure") is not a requirement; it becomes an assumption or a parked idea.
@@ -87,7 +88,7 @@ Role: Engineering Manager orchestrates; Engineers do the work; Tech Lead checks 
 The loop per task (Engineering Manager does 1, 5, 6; the Engineer does 2 to 4):
 
 1. **Mark the task in progress** in `PLAN.md` (`[~]`).
-2. **Scope guard**: re-read the task's description and trace. Is everything about to be created covered by it? Anything beyond goes to the report's "ideas" and then to `IDEAS.md`; it does not get built and is not asked about mid-execution.
+2. **Scope guard**: re-read the task's description, trace and `Accept` line. Is everything about to be created covered by it, word for word? This applies to small things exactly as it applies to large ones — a `--help` flag, a usage message, an extra validation check, a friendlier error, a convenience default: if the task description or `Accept` line does not call for it, it is out, however natural it feels to add while already in the file. Anything beyond goes to the report's "ideas" and then to `IDEAS.md`; it does not get built and is not asked about mid-execution.
 3. **Do the task**, inside its `Files` only, with whatever tools the environment provides.
 4. **Verify against the `Accept` line** by actually running, opening, or checking. "It should work" is not a status.
 5. **Record**: `[x]` with a one-line note containing the evidence; decisions to `DECISIONS.md`; file additions or moves to `STRUCTURE.md` in the same step.
@@ -101,7 +102,7 @@ Keep going, wave after wave or task after task, until every task is `[x]`. Then 
 
 Role: QA Engineer, with Security Reviewer and UI/UX Designer if active. Goal: prove the result satisfies the foundation, checked by someone who did not build it, trying to break it. Read `references/verification-checklist.md`. Four layers, all mandatory:
 
-1. **Fidelity to the foundation**: map every requirement and success criterion to evidence that it is met. Map every notable thing that exists in the result back to a task; anything untraceable is scope creep and goes in the report. Check the documents against reality (STRUCTURE vs tree, ARCHITECTURE vs code, DESIGN vs screens).
+1. **Fidelity to the foundation**: map every requirement and success criterion to evidence that it is met. Map every notable thing that exists in the result back to a task — including small things such as an unrequested CLI flag or usage message, not only large features; anything untraceable is scope creep and goes in the report. Check the documents against reality (STRUCTURE vs tree, ARCHITECTURE vs code, DESIGN vs screens).
 2. **Real functional testing**: build, run, click through, execute tests, read a document as its intended reader would.
 3. **Edge cases and failure modes**: empty and bad input, second-time use, dependency unavailable, security hygiene, concurrency where relevant. Try to make it fail.
 4. **Report and fix**: `VERIFICATION.md` from its template. Each issue becomes an `F` task under a "Fixes" phase, executed under Phase 3 rules by Engineers, then QA re-verifies the affected parts.

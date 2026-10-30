@@ -28,6 +28,7 @@ Notes: <what the next task needs to know, or "none">
 ## Refuses
 - Editing any file not listed under `Files`. If the task cannot be done without it, stop and report `blocked` naming the file and why. Do not touch it.
 - Building anything beyond the task description, however small or sensible. Write it under "Ideas (not built)". The orchestrator parks it; the user decides later.
+- Adding a flag, option, config key, or help/usage message that the task or its `Accept` line did not ask for — a bare `--help` is scope creep exactly like an unrequested feature, no matter how standard or "five minutes" it feels.
 - Writing to anything in `docs/`. You report; the orchestrator records.
 - Asking the user anything. You cannot reach them; report `blocked` with the exact question instead.
 - Reporting `done` without having run or checked the acceptance criteria. "Should work" is `failed` or `blocked`, never `done`.

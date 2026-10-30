@@ -68,6 +68,21 @@ def parse_plan(text):
     return status_line, tasks
 
 
+def known_task_ids(tasks):
+    return {t["id"] for t in tasks}
+
+
+def unknown_deps(tasks):
+    """Deps that name a task ID absent from the whole plan: these would wait forever."""
+    known = known_task_ids(tasks)
+    out = []
+    for t in tasks:
+        for d in t["deps"]:
+            if d not in known:
+                out.append((t["id"], d))
+    return out
+
+
 def ready_tasks(tasks):
     """Pending tasks whose deps are all done, in plan order."""
     done = {t["id"] for t in tasks if t["status"] == "done"}
@@ -79,10 +94,28 @@ def _overlap(a, b):
     return a == b or a.startswith(b + "/") or b.startswith(a + "/")
 
 
-def first_wave(ready):
-    """Greedy: ready tasks whose Files do not overlap with an earlier pick."""
-    wave, claimed = [], []
+def claimed_files(tasks):
+    """Files already owned by work in flight: done and in-progress tasks both hold their Files."""
+    claimed = []
+    for t in tasks:
+        if t["status"] in ("done", "in_progress"):
+            claimed.extend(t["files"])
+    return claimed
+
+
+def first_wave(ready, in_flight_files=()):
+    """Greedy: ready tasks whose Files do not overlap each other or files already in flight.
+
+    A task with no Files listed has unknown scope and can corrupt any wave it joins
+    (nothing says what it might touch), so it never shares a wave with another task;
+    it is always alone in its own wave of one.
+    """
+    wave, claimed = [], list(in_flight_files)
     for t in ready:
+        if not t["files"]:
+            if not wave:
+                wave.append(t)
+            break
         if any(_overlap(f, c) for f in t["files"] for c in claimed):
             continue
         wave.append(t)
@@ -104,8 +137,9 @@ def main(argv):
     for t in tasks:
         counts[t["status"]] += 1
     ready = ready_tasks(tasks)
-    wave = first_wave(ready)
+    wave = first_wave(ready, in_flight_files=claimed_files(tasks))
     untraced = [t for t in tasks if not t["trace"]]
+    bad_deps = unknown_deps(tasks)
     docs = sorted(p.name for p in (root / "docs").glob("*.md"))
     ideas = root / "docs" / "IDEAS.md"
     n_ideas = (
@@ -120,6 +154,7 @@ def main(argv):
             "blocked": [t["id"] for t in tasks if t["status"] == "blocked"],
             "in_progress": [t["id"] for t in tasks if t["status"] == "in_progress"],
             "untraced": [t["id"] for t in untraced], "docs": docs, "ideas_parked": n_ideas,
+            "unknown_deps": [{"task": tid, "missing_dep": d} for tid, d in bad_deps],
         }, indent=2, ensure_ascii=False))
         return 0
 
@@ -146,6 +181,8 @@ def main(argv):
         print("All tasks done. Next: Phase 4 verification (or approval gate 2 if VERIFICATION.md is complete).")
     if untraced:
         print("WARNING untraced tasks (no → R-item): " + ", ".join(t["id"] for t in untraced))
+    for tid, dep in bad_deps:
+        print(f"WARNING dependency to unknown task: {tid} depends on {dep} (does not exist)")
     print(f"Docs: {', '.join(docs) if docs else '(none)'} · Ideas parked: {n_ideas}")
     return 0
 
