@@ -23,6 +23,7 @@ Assumption killers:
 - **S3. Data**: What data goes in, where does it come from, and does any of it need to persist between uses? Is any of it sensitive?
 - **S4. Existing environment**: What do you already have installed or already use (language, framework, database, hosting)? Should I match that or choose freely?
 - **S5. Boundaries**: Which of these are explicitly NOT needed right now: user accounts/login, multiple users, mobile layout, admin panel, notifications, payments, deployment? (Offer as a checklist; the unchecked ones go to Out of scope.)
+- **S6. Language of the thing itself**: What language(s) should the *result* actually be in — not this conversation, the app/document/content itself? One language only, or does it need to support more than one? (Easy to assume "whatever language we're talking in" and be wrong; a wrong guess here means retrofitting i18n later.)
 
 Good to know:
 - Integration with any external service or API?

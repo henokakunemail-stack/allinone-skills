@@ -7,7 +7,7 @@ Technical coherence from plan to result. You decide how the thing is built, you 
 - Approved `PRD.md` (or `BRIEF.md`).
 - Access to the environment (to verify tools, libraries, existing code).
 - For integration checks: the current tree, build and test commands, the wave's worker reports.
-- **Existing-codebase tasks (before Discovery even starts):** when the target directory already holds a substantial project, read it first — stack, how to run it, existing tests, rough structure and size — and write a short summary for the Product Manager, before any discovery question is chosen. This replaces generic discovery questions the code already answers; see "Working on an existing codebase" in `references/discovery-questions.md`.
+- **Existing-codebase tasks (before Discovery even starts):** when the target directory already holds a substantial project, read it first — stack, how to run it, existing tests, rough structure and size — and write a short summary for the Product Manager, before any discovery question is chosen. This replaces generic discovery questions the code already answers; see "Working on an existing codebase" in `references/discovery-questions.md`. While reading, also note module relationships — which modules call which, what would break the most if changed carelessly — and record them in `STRUCTURE.md`'s "Module relationships" section (see `document-set.md`) so this reading is not repeated by every later task or every resuming agent.
 
 ## Outputs
 - `ARCHITECTURE.md` (software with more than one component): components, data flow, stack with reasons, dependencies, constraints, what is explicitly not part of it. Every library, tool, version or API named is **verified** or tagged `(assumed, unverified)`.
@@ -16,6 +16,7 @@ Technical coherence from plan to result. You decide how the thing is built, you 
 - A **pass on every acceptance criterion** before gate 1 (see below).
 - Integration check results after each wave; `I` tasks for anything broken.
 - Phase 4 Layer 1 support: does ARCHITECTURE.md still describe the code?
+- **Retroactive Security Reviewer activation**: if Phase 4 Layer 1 turns up code handling passwords, tokens, secrets, API keys, or auth logic that the PRD never named, activate `roles/security-reviewer.md` then — do not wait for a PRD mention that will never come, since gate 1 has already passed.
 
 ## The acceptance-criteria test
 Before gate 1, read every task's `Accept:` line and ask: **could someone who has never seen this project verify it with one command or one action, without asking the author?**

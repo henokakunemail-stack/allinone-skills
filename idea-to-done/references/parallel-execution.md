@@ -78,7 +78,11 @@ If the environment supports isolated workspaces (git worktrees, branches, separa
 
 ## Single writer: the orchestrator (Engineering Manager)
 
-Only the orchestrator writes `PLAN.md`, `DECISIONS.md`, `IDEAS.md`, and `STRUCTURE.md`. Two agents editing the same document at the same time will lose updates. After each wave:
+Only the orchestrator writes `PLAN.md`, `DECISIONS.md`, `IDEAS.md`, and `STRUCTURE.md`. Two agents editing the same document at the same time will lose updates.
+
+This rule assumes one orchestrator controlling the workers it dispatches — it says nothing about two independent sessions a *person* opens against the same project (two terminal tabs, two devices, one agent resumed while an earlier one is still running). This skill has no way to detect or lock against that from the outside. If you discover, on starting or resuming, that `docs/PLAN.md` or any other owned document does not match what you last wrote to it — a status line you didn't set, a task marked done that you didn't mark, a diff you can't account for — treat that as a signal another session may be writing concurrently, say so to the user, and re-read before writing again rather than overwriting blind.
+
+After each wave:
 
 - PLAN.md: `[x]` with the worker's verification line as the Note; `[!]` with the blocking question; `[ ]` again with a note if it failed and will be retried.
 - DECISIONS.md: copy each reported decision as a D-entry with the task ID.
@@ -99,7 +103,7 @@ Do not start the next wave on a broken build.
 
 ## Failures and retries
 
-- A worker reports `failed`: read its report. If the cause is clear and small, fix inline or redispatch with the added context. Count it as one attempt against the three-strikes rule for that task.
+- A worker reports `failed`: read its report. **Before redispatching, revert the task's `Files` to their state before this worker touched them** (check out the pre-task version, or delete what the worker created) rather than letting a second attempt build on top of a failed first one — a half-done file is state from an attempt that didn't work, not a head start. If the cause is clear and small, fix inline or redispatch with the added context, against a clean starting point. Count it as one attempt against the three-strikes rule for that task.
 - A worker reports `blocked`: mark `[!]`. If the block is a dependency that another task will resolve, continue; if it is a question only the user can answer, collect every blocked question in the wave and ask them together in one stop-and-ask. Batching questions is a courtesy to the user and keeps the autonomous run autonomous.
 - A worker produced something out of scope: do not keep it just because it exists. Revert it, note it in IDEAS.md, and tighten the brief for the next dispatch.
 - A worker's verification line says "should work" or lacks a command and output: the task is not done. Redispatch with the instruction to verify, or verify it yourself before marking `[x]`.

@@ -23,8 +23,9 @@ Roles communicate only through the documents in `docs/`. There are no meetings e
 | UI/UX Designer | `ui-ux-designer.md` | A requirement involves a user interface | `DESIGN.md`; flow check in Phase 4 |
 | Technical Writer | `technical-writer.md` | User-facing documentation is itself a requirement | the documentation the PRD asks for |
 | Researcher | `researcher.md` | Category is research, or a Phase 2 decision needs evidence first | findings with sources, into DECISIONS or the deliverable |
-| Security Reviewer | `security-reviewer.md` | PRD mentions sensitive data, auth, payments, or asks for a security review | security findings in `VERIFICATION.md` |
+| Security Reviewer | `security-reviewer.md` | PRD mentions sensitive data, auth, payments, or asks for a security review — or Phase 4 finds secrets/auth code in the result even though the PRD never mentioned them | security findings in `VERIFICATION.md` |
 | DevOps | `devops.md` | Deployment, CI, containers, or infrastructure is in scope | deployment config and runbook the PRD asks for |
+| Editor / Craft Reviewer | `editor-craft-reviewer.md` | A requirement produces a UI, a document, or other content a person reads or looks at directly | Craft findings in `VERIFICATION.md` (or `CRAFT.md`) |
 
 The rule that makes specialists safe: **no work in the Scope Contract, no specialist.** Without a DevOps role there is nobody to "helpfully" add a Dockerfile.
 
@@ -37,7 +38,7 @@ The rule that makes specialists safe: **no work in the Scope Contract, no specia
 | 2 Planning | Product Manager → Tech Lead (+ UI/UX Designer, Researcher if activated) → Engineering Manager |
 | Gate 1 | Product Manager presents |
 | 3 Execution | Engineering Manager orchestrates; Engineers work; Tech Lead checks integration at wave boundaries; Technical Writer / DevOps as tasks require |
-| 4 Verification | QA Engineer (+ Security Reviewer, UI/UX Designer if activated); Engineering Manager turns findings into fix tasks |
+| 4 Verification | QA Engineer (+ Security Reviewer, UI/UX Designer, Editor/Craft Reviewer if activated); Engineering Manager turns findings into fix tasks |
 | Gate 2 | QA Engineer presents |
 
 ## Scale: when roles become separate agents

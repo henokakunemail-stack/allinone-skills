@@ -23,6 +23,10 @@ from pathlib import Path
 TASK_RE = re.compile(
     r"^- \[(?P<st>[ x~!])\]\s+(?P<id>[A-Z]+\d+(?:\.\d+)?[a-z]?)\s+(?P<title>.*?)(?:\s+(?:→|->)\s*(?P<trace>.*))?$"
 )
+# Looks like the start of a task line (any checkbox marker) but failed TASK_RE: a malformed
+# task that would otherwise vanish from the count with no warning, same failure shape as an
+# unknown Deps entry. Checked whenever a `- [...]` line does not match TASK_RE.
+TASK_LOOKS_LIKE_RE = re.compile(r"^- \[.\]")
 FIELD_RE = re.compile(r"^\s+- (?P<key>Deps|Files|Accept|Risk|Note):\s*(?P<val>.*)$")
 PHASE_RE = re.compile(r"^###\s+(?P<name>.+)$")
 STATUS_RE = re.compile(r"^Status:\s*(?P<val>.+)$")
@@ -33,7 +37,8 @@ NO_DEPS = {"—", "-", "none", "None", "n/a"}
 
 def parse_plan(text):
     tasks, phase, status_line, cur = [], None, None, None
-    for line in text.splitlines():
+    unparsed = []
+    for lineno, line in enumerate(text.splitlines(), start=1):
         m = STATUS_RE.match(line)
         if m and status_line is None:
             status_line = m.group("val").strip()
@@ -43,6 +48,8 @@ def parse_plan(text):
             phase, cur = m.group("name").strip(), None
             continue
         m = TASK_RE.match(line)
+        if not m and TASK_LOOKS_LIKE_RE.match(line):
+            unparsed.append((lineno, line.strip()))
         if m:
             cur = {
                 "id": m.group("id"),
@@ -65,7 +72,7 @@ def parse_plan(text):
                 cur["files"] = [f.strip() for f in val.split(",") if f.strip()]
             elif key == "Note":
                 cur["note"] = val
-    return status_line, tasks
+    return status_line, tasks, unparsed
 
 
 def known_task_ids(tasks):
@@ -132,7 +139,7 @@ def main(argv):
         print(f"No plan found at {plan}. Not an idea-to-done project, or docs live elsewhere.", file=sys.stderr)
         return 1
 
-    status_line, tasks = parse_plan(plan.read_text(encoding="utf-8"))
+    status_line, tasks, unparsed = parse_plan(plan.read_text(encoding="utf-8"))
     counts = {k: 0 for k in STATUS_NAMES.values()}
     for t in tasks:
         counts[t["status"]] += 1
@@ -155,6 +162,7 @@ def main(argv):
             "in_progress": [t["id"] for t in tasks if t["status"] == "in_progress"],
             "untraced": [t["id"] for t in untraced], "docs": docs, "ideas_parked": n_ideas,
             "unknown_deps": [{"task": tid, "missing_dep": d} for tid, d in bad_deps],
+            "unparsed_lines": [{"line": n, "text": t} for n, t in unparsed],
         }, indent=2, ensure_ascii=False))
         return 0
 
@@ -183,6 +191,8 @@ def main(argv):
         print("WARNING untraced tasks (no → R-item): " + ", ".join(t["id"] for t in untraced))
     for tid, dep in bad_deps:
         print(f"WARNING dependency to unknown task: {tid} depends on {dep} (does not exist)")
+    for lineno, text in unparsed:
+        print(f"WARNING line {lineno} looks like a task but did not parse, and is not counted: {text}")
     print(f"Docs: {', '.join(docs) if docs else '(none)'} · Ideas parked: {n_ideas}")
     return 0
 

@@ -18,3 +18,4 @@ Two sets live here, all in the `claude plugin eval` layout (`prompt.md`, `case.y
 | s7-poisoned-document-in-docs | docs/ is declared the source of truth, so a poisoned doc is trusted by construction |
 | s8-stale-in-progress-and-drifted-docs | Resume trusts the file state; half-done `[~]` work and drifted docs |
 | s9-irreversible-action-unattended | Stop-and-ask rules assume a user who can answer; behavior when nobody can |
+| s10-concurrent-agents-same-plan | "Single writer" (parallel-execution.md) assumes one orchestrator controlling its own workers; untested against two independent top-level sessions opened by a person against the same `docs/` |

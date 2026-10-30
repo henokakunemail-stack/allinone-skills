@@ -19,6 +19,7 @@ Execution is autonomous between the two approval gates. Autonomy is earned by di
    - PLAN.md: set `[x]`, fill `Note:` with one line of result and evidence.
    - DECISIONS.md: any non-trivial choice (library, structure, interpretation of an ambiguous requirement, trade-off), with alternatives and reason.
    - STRUCTURE.md (software): if files were added, moved, or removed, update it now, not later.
+   - **Git (software, local only):** if the project is a git repository, a local commit for the task's `Files` is encouraged and may be made without asking — a *local* commit is not the irreversible/external action the stop-and-ask trigger below means; only `push` and anything that reaches outside the repository are. Message the commit with the task ID and a one-line summary (e.g. `T2.3: implement rm N`), so the commit history reads as the same trace PLAN.md already keeps. Never commit secrets, and never amend or rewrite history that predates this session's work.
 7. **Progress line** to the user every few tasks: which tasks finished, anything notable. Not a narration of every step.
 
 ## Stop-and-ask triggers
@@ -26,7 +27,7 @@ Execution is autonomous between the two approval gates. Autonomy is earned by di
 Stop, explain in two or three sentences, ask, and wait. Do not proceed on a guess.
 
 - **Missing information.** The task needs something not in PRD requirements or assumptions, and guessing would shape the result (data format, business rule, which of two valid interpretations). A tiny implementation detail that any reasonable choice satisfies is not this; decide and record in DECISIONS.md.
-- **Irreversible or external actions.** Deleting data or files the user did not ask to delete, pushing to shared branches, deploying, sending messages or emails, spending money, modifying anything outside the project directory, installing system-wide software. Confirm every time, even if a similar action was approved before.
+- **Irreversible or external actions.** Deleting data or files the user did not ask to delete, pushing to shared branches, deploying, sending messages or emails, spending money, modifying anything outside the project directory, installing system-wide software. Confirm every time, even if a similar action was approved before. (A *local* git commit, confined to the project directory and never pushed, is not this trigger — see the per-task loop's Record step.)
 - **Three strikes.** Three attempts at fixing the same failure have not worked. Explain what you tried and what you think is going on. Continuing to thrash wastes the user's budget and often digs the hole deeper.
 - **Plan is wrong.** You have learned something that changes the approach, invalidates a requirement, or means a task cannot be done as planned. Propose the revision: what changes in PRD/PLAN/ARCHITECTURE, why, and what it affects. The user approves the revision; then continue.
 

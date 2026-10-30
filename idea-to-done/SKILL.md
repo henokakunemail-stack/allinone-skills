@@ -2,7 +2,7 @@
 name: idea-to-done
 description: Turns a raw idea (an app, a tool, a work deliverable, a document, a research task, anything with an outcome) into a clarified foundation (PRD), a traceable plan, real execution, and deep independent verification, run like a small office of roles (product manager, tech lead, engineers, QA) that build only what the user asked for and state only what they verified. Use this whenever the user brings a new idea or project and wants it built or done, says things like "I want to make...", "help me build...", "I have an idea for...", "bikin...", "buatkan...", "saya ingin membuat...", or asks you to plan and then execute something, even if they never say "plan". Also use it to resume a project whose docs/ folder already contains PLAN.md. Do not use it for a single small edit, a quick question, or a task the user has already fully specified in one line.
 metadata:
-  version: "1.2.0"
+  version: "1.3.0"
   docs-dir: docs
 ---
 
@@ -51,7 +51,7 @@ Templates are in `assets/`; `references/document-set.md` describes each document
 
 Role: Engineering Manager. Check whether `docs/PLAN.md` exists.
 
-- **It exists**: read it, then the documents it indexes (at minimum PRD/BRIEF, DECISIONS, IDEAS). Tell the user in two or three sentences where the project stands (phase, what is done, what is next) and continue from exactly that point. Do not restart discovery. Do not re-ask answered questions. Treat any `[~]` task as unfinished: check its `Files` against its `Accept` line before deciding to continue, redo, or mark it done. If something in the plan now looks wrong, say so and propose a revision rather than silently deviating. `python <this skill>/scripts/status.py` prints a quick summary.
+- **It exists**: read it, then the documents it indexes (at minimum PRD/BRIEF, DECISIONS, IDEAS). Tell the user in two or three sentences where the project stands (phase, what is done, what is next) and continue from exactly that point. Do not restart discovery. Do not re-ask answered questions. Treat any `[~]` task as unfinished: check its `Files` against its `Accept` line before deciding to continue, redo, or mark it done. If something in the plan now looks wrong, say so and propose a revision rather than silently deviating. If the status line carries a `Waiting since:` far in the past (weeks, not hours), say so explicitly before re-presenting the same gate — do not just silently proceed as if no time passed. `python <this skill>/scripts/status.py` prints a quick summary.
 - **It does not exist**: this is a new idea. Go to Phase 1.
 
 ## Phase 1: Discovery
@@ -100,11 +100,12 @@ Keep going, wave after wave or task after task, until every task is `[x]`. Then 
 
 ## Phase 4: Verification (whole-system, deep)
 
-Role: QA Engineer, with Security Reviewer and UI/UX Designer if active. Goal: prove the result satisfies the foundation, checked by someone who did not build it, trying to break it. Read `references/verification-checklist.md`. Four layers, all mandatory:
+Role: QA Engineer, with Security Reviewer, UI/UX Designer, and Editor/Craft Reviewer if active. Goal: prove the result satisfies the foundation, checked by someone who did not build it, trying to break it. Read `references/verification-checklist.md`. Layers, all mandatory where they apply:
 
-1. **Fidelity to the foundation**: map every requirement and success criterion to evidence that it is met. Map every notable thing that exists in the result back to a task — including small things such as an unrequested CLI flag or usage message, not only large features; anything untraceable is scope creep and goes in the report. Check the documents against reality (STRUCTURE vs tree, ARCHITECTURE vs code, DESIGN vs screens).
+1. **Fidelity to the foundation**: map every requirement and success criterion to evidence that it is met. Map every notable thing that exists in the result back to a task — including small things such as an unrequested CLI flag or usage message, not only large features; anything untraceable is scope creep and goes in the report. Check the documents against reality (STRUCTURE vs tree, ARCHITECTURE vs code, DESIGN vs screens). If this turns up code handling passwords, tokens, secrets, API keys, or auth that the PRD never named, the Tech Lead activates Security Reviewer retroactively, now, rather than waiting for a PRD mention that will never come.
 2. **Real functional testing**: build, run, click through, execute tests, read a document as its intended reader would.
 3. **Edge cases and failure modes**: empty and bad input, second-time use, dependency unavailable, security hygiene, concurrency where relevant. Try to make it fail.
+3b. **Craft, when there is a UI or written content**: fidelity and function are not craft — the Editor/Craft Reviewer (`roles/editor-craft-reviewer.md`) checks whether the result reads or looks like it was actually finished with care, not just whether it satisfies its requirements. A quality check, never a scope check.
 4. **Report and fix**: `VERIFICATION.md` from its template. Each issue becomes an `F` task under a "Fixes" phase, executed under Phase 3 rules by Engineers, then QA re-verifies the affected parts.
 
 **Fresh eyes are the point.** If the environment can spawn a separate agent, give it only `docs/`, the result, the QA role card and the checklist. If not, write the test checklist *before* re-reading the implementation, then test as a skeptical QA reviewer whose job is to find what is wrong.

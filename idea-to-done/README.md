@@ -8,7 +8,7 @@ An [Agent Skill](https://agentskills.io) (v1.1) that takes a raw idea through fi
 3. **Execution** — task by task, or in parallel waves of workers when the agent supports it; each task verified and recorded; out-of-scope ideas parked in `IDEAS.md`
 4. **Verification** — whole-system testing by a fresh agent (or QA mode), issues become fix tasks → **approval**
 
-The work is organized like a small office. Five core roles (Product Manager, Tech Lead, Engineering Manager, Engineer, QA Engineer) and five specialists activated only when the scope needs them (UI/UX Designer, Technical Writer, Researcher, Security Reviewer, DevOps). Each role is a mandate with refusals and an artifact, never a rubber stamp; roles talk only through `docs/`. A scale rule decides whether roles run as separate agents or as hats worn by one agent.
+The work is organized like a small office. Five core roles (Product Manager, Tech Lead, Engineering Manager, Engineer, QA Engineer) and six specialists activated only when the scope needs them (UI/UX Designer, Technical Writer, Researcher, Security Reviewer, DevOps, Editor/Craft Reviewer). Each role is a mandate with refusals and an artifact, never a rubber stamp; roles talk only through `docs/`. A scale rule decides whether roles run as separate agents or as hats worn by one agent.
 
 Its distinguishing rule: the office builds only what the approved Scope Contract says and states only what it has verified. Every task traces to a requirement; every acceptance criterion can be checked by a stranger; every shipped feature traces back to a task; every scope change goes through a logged revision.
 
@@ -33,6 +33,14 @@ The folder is the same everywhere; only the location changes. Copy (or symlink) 
 With the Skills CLI (where available): `npx skills add <repo-or-path> --skill idea-to-done`.
 
 Paths were checked in October 2026 against each tool's documentation. Check the tool's docs if a path has moved.
+
+### Upgrading
+
+The install is just a folder copy, so upgrading is the same copy, again. Pull the latest version of this repo (`git pull`, or re-download it) and re-copy or re-symlink `idea-to-done/` over the old one at the same path from the table above — or, if you installed with the Skills CLI, run the same `npx skills add ...` command again; it overwrites the existing copy. Your own project's `docs/` folder is untouched either way, since the skill and the projects it produced are separate.
+
+### Uninstalling
+
+Delete the `idea-to-done/` folder from wherever you installed it (the same path from the table above). There is nothing else to clean up — no background process, no registry entry, no state outside that folder and your own projects' `docs/`.
 
 ## Use
 
@@ -88,6 +96,19 @@ idea-to-done/
 ```
 
 ## Changelog
+
+**v1.3.0**
+- Added a new specialist role, **Editor / Craft Reviewer** (`references/roles/editor-craft-reviewer.md`), activated when the result is a UI, a document, or other content a person reads or looks at directly. It judges craft — does this read or look like it was actually finished with care, not just whether it satisfies its requirements — separately from fidelity (Phase 4 Layer 1) and function (Layer 2). For UI work it loads a dedicated visual-design skill where the environment has one rather than inventing design judgment from scratch. Wired into `SKILL.md` Phase 4 as a new Layer 3b and into `references/verification-checklist.md` and `references/roles/README.md`.
+- **Security Reviewer now activates retroactively.** Previously it only turned on when the PRD mentioned sensitive data/auth/payments up front. Now, if Phase 4's fidelity check turns up password/token/secret/auth-handling code the PRD never named, the Tech Lead activates Security Reviewer then, rather than letting it stay dormant because nobody flagged it in advance.
+- **Local git commits are now part of the per-task loop** (`references/execution-rules.md`): a local commit (never a push) for a task's `Files`, named with the task ID, may happen automatically as part of recording a task — distinct from the existing stop-and-ask rule for `push` and other external actions, which is unchanged.
+- **Large plans can be split.** `references/document-set.md` now says when and how: past roughly 60 tasks or more than three Phases, keep `PLAN.md` as a short index and move each phase's tasks into `docs/plan/phase-<n>.md`.
+- **Approval gates now record how long they've been waiting.** A `Waiting since:` line on PLAN.md's status (added to `assets/PLAN.template.md`) is set whenever Status is `awaiting-approval` or otherwise stopped on the user, and a resuming agent that finds it old says so explicitly rather than silently re-presenting the same gate as if no time had passed.
+- **Failed parallel workers are redispatched onto a clean slate.** `references/parallel-execution.md` now says explicitly: revert a failed worker's `Files` before giving the task to a second attempt, rather than building on top of a half-finished first one.
+- Clarified that the **"single writer" rule has a real limit**: it protects against one orchestrator's own workers colliding, not against two independent sessions a person opens against the same project from outside the skill's control. `references/parallel-execution.md` now says what to do if you notice a document doesn't match what you last wrote to it. New stress case `evals/s10-concurrent-agents-same-plan/` exercises this.
+- Discovery now asks what language the **deliverable itself** needs to be in (not the conversation) — a new assumption-killer question (S6) in `references/discovery-questions.md`, since this is easy to assume wrong and expensive to retrofit.
+- `scripts/status.py` no longer silently drops a malformed task line. A `- [...]` line that looks like a task but fails to parse now prints a `WARNING` (text output) and appears under a new `unparsed_lines` key (`--json`), the same treatment the v1.2 `unknown_deps` fix gave to dangling dependencies.
+- `references/document-set.md` and `assets/STRUCTURE.template.md` gained an optional **Module relationships** section for existing-codebase projects: the Tech Lead records which modules call which and what would break the most if changed carelessly, as plain markdown written once while reading the repo — the same kind of thing a generated code-relationship graph gives an agent, without adding any external tool or dependency.
+- README gained short **Upgrading** and **Uninstalling** sections.
 
 **v1.2.0**
 - Fixed three `scripts/status.py` bugs found by manual stress-testing: a task with no `Files` listed could still be placed in a parallel wave with another task (now always runs alone, since its scope is unknown); an in-progress (`[~]`) task's `Files` were not locked, so a colliding task could still show as "parallelizable now" (now `[~]` files are claimed exactly like `[x]` files); a `Deps` entry naming a task ID that does not exist anywhere in the plan produced no warning, so that task would wait forever (now reported as `WARNING dependency to unknown task` in text output and under `unknown_deps` in `--json`).

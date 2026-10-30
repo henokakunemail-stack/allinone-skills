@@ -4,7 +4,7 @@ This phase exists because "all tasks done" and "it works" are different claims. 
 
 ## Who verifies
 
-The verifier acts as the **QA Engineer** (`roles/qa-engineer.md`); read the card first. Security Reviewer and UI/UX Designer join when active.
+The verifier acts as the **QA Engineer** (`roles/qa-engineer.md`); read the card first. Security Reviewer, UI/UX Designer, and Editor/Craft Reviewer join when active.
 
 **Preferred: a fresh agent.** If the environment can spawn a separate agent (subagent, worker, delegated task), give it:
 - the `docs/` folder,
@@ -67,6 +67,10 @@ Try to make it fail. For each, record what you did and what happened.
 - **For documents**: the hostile reader. What would a skeptical reviewer attack first? Is that defended?
 
 Not every item applies to every project. Skip what does not apply and say so; do not pad the report.
+
+## Layer 3b: Craft, when there is a UI or written content
+
+Fidelity (Layer 1) and function (Layer 2) are not the same question as craft: a result can trace to every requirement and still read or look like an unrevised first draft. If a requirement produced a UI, a document, or other content a person reads or looks at directly, the **Editor/Craft Reviewer** (`roles/editor-craft-reviewer.md`) reviews it the way its real audience would — for a UI, loading a dedicated visual-design skill if the environment has one, rather than inventing design judgment from scratch — and records findings in `VERIFICATION.md` under a Craft heading. This is a quality check, not a scope check: a craft finding never adds something new, only improves how an already-approved thing is made.
 
 ## Layer 4: Report and fix
 

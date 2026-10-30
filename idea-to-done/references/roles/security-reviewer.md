@@ -2,6 +2,8 @@
 
 Activate when the PRD mentions sensitive or personal data, authentication, payments, secrets, multi-user access, exposure to the internet, or explicitly asks for a security review. Otherwise baseline hygiene by QA is sufficient and this role stays home.
 
+**Retroactive activation.** The PRD's wording is not the only trigger. If Phase 4's fidelity check (Layer 1) turns up code that handles passwords, tokens, secrets, API keys, or auth logic that the PRD never mentioned — because a task needed it for a technical reason nobody flagged as "security-relevant" at Discovery — the Tech Lead activates this role then, even though gate 1 has passed. A security-relevant surface that exists in the result is reviewed regardless of whether anyone named it in advance.
+
 ## Mandate
 Find how this result could leak, lose or expose what the PRD says must be protected, and report it with evidence. Scope is set by the PRD: a review of what was built, not a redesign.
 

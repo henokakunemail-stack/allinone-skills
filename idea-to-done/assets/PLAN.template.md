@@ -2,6 +2,7 @@
 
 Status: planning | awaiting-approval | executing | executing (parallel) | verifying | fixing | done
 Phase: 2 · Updated: <date>
+Waiting since: <date, only while Status is awaiting-approval or otherwise blocked on the user — remove this line once they respond>
 
 ## Document index
 

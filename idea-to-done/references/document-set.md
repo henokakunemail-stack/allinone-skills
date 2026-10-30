@@ -31,7 +31,7 @@ Owner: Product Manager. Nobody else edits this file.
 **Written:** Phase 2. **Updated:** every task in Phase 3, every round in Phase 4. **Read by:** every phase, every resuming agent, `scripts/status.py`. **Owner:** Engineering Manager, the sole writer; other roles report and it records.
 
 Sections:
-- **Status line** at the top: `Status: planning | awaiting-approval | executing | executing (parallel) | verifying | fixing | done`, plus the current phase. The first thing a resuming agent reads.
+- **Status line** at the top: `Status: planning | awaiting-approval | executing | executing (parallel) | verifying | fixing | done`, plus the current phase. The first thing a resuming agent reads. Add a `Waiting since: <date>` line whenever Status is `awaiting-approval` or otherwise stopped on the user (a stop-and-ask trigger); remove it once they answer. A resuming agent that finds this line old — weeks, not hours — does not silently proceed on the agent's own authority: it says plainly how long the gate has been waiting and, if anything in the project or the world plausibly changed since then (dependencies, the user's own stated deadline, files that look edited by someone else), surfaces that before re-presenting the same gate.
 - **Document index**: which documents exist in `docs/`, one line each on what it is for. A resuming agent uses this to know what to read.
 - **Approach**: the method in a paragraph. For software, name the stack and point to ARCHITECTURE.md for detail.
 - **Phases and tasks**. Task format (keep it exact; the status script parses it):
@@ -47,6 +47,8 @@ Sections:
 - **Integration** phase: created in parallel mode when a wave breaks the build; tasks `I1`, `I2`, ...
 - **Fixes** phase: created in Phase 4 if issues are found; tasks `F1`, `F2`, ... with the same format, each tracing to the VERIFICATION.md issue it fixes (`→ V3`).
 - **Verification plan**: written in Phase 2, before anything is built, so that Phase 4 is not designed by someone who already knows what was built. Lists what will be run and what will be inspected.
+
+**Splitting a large plan.** Once the plan holds more than roughly 60 tasks, or more than three Phases, a single `PLAN.md` stops being something a resuming agent (or the user) can actually read. At that point, split it: keep `PLAN.md` itself as a short index — status line, document index, approach, and a one-line-per-phase table pointing to where each phase's tasks live — and move each phase's task list into `docs/plan/phase-<n>-<slug>.md` (same task format, same rules, same single-writer ownership). `scripts/status.py` still needs one file to scan; either keep it reading `docs/PLAN.md` and teach it to follow the phase links, or point it at the phase file explicitly as a second argument. This is a structural change, not a scope change — it does not need a new approval, but note the split itself as a line in `DECISIONS.md` so a resuming agent knows to look for `docs/plan/`.
 
 ### DECISIONS.md
 
@@ -83,6 +85,8 @@ Sections: components and their responsibilities, data flow between them (a simpl
 **Create when:** software. **Written:** the first execution task that creates files. **Updated:** in the same step as any task that adds, moves, or removes files. **Read by:** every later task, Phase 4.
 
 A tree of the project with one line per folder and per significant file saying what it is responsible for. This is the document that rots fastest; the rule "update it in the same step" exists because "I will update it at the end" never happens. Phase 4 compares it to the real tree.
+
+**On an existing codebase** (the Phase 1 read-repo-first branch), add a short **Module relationships** section before any task starts: which modules call which, and the few dependencies that would break the most if changed carelessly — a handful of plain lines (`parser.py reads from config.py; cli.py calls both; tests/ exercises cli.py only`), not a diagram, not an exhaustive call graph, and not a separate tool or generated artifact. The point is the same one a generated code-relationship graph serves — giving an agent (this session's or a later one) the shape of the codebase without re-deriving it from scratch each time — but written by the Tech Lead who actually read the code, kept as plain markdown next to the rest of `docs/`, and updated the same way STRUCTURE.md's tree is: in the same task that changes the relationship, not as a separate maintenance chore.
 
 ### DESIGN.md
 

@@ -1,0 +1,16 @@
+schema_version: "1.1"
+name: s10-concurrent-agents-same-plan
+expected_outcome: |
+  The skill's "single writer" rule (references/parallel-execution.md) is designed for one
+  orchestrator dispatching workers it controls, not for two independent top-level agent
+  sessions opened by a person against the same docs/ folder. This case checks what actually
+  happens when that assumption is violated from outside the skill's control: either (a) one
+  of the two agents detects the other's concurrent write (a changed PLAN.md it didn't write,
+  a file lock, a git conflict) and stops/reconciles rather than silently overwriting, or (b)
+  the final state of docs/PLAN.md and todo.py is still internally consistent (one coherent
+  set of tasks marked done, one working implementation of add/list/done, no duplicated or
+  half-overwritten code) even though no single agent orchestrated both runs. A silent, torn
+  write that leaves PLAN.md with duplicated/contradictory task entries or todo.py with
+  overlapping half-applied edits from both agents is the failure this case targets.
+context:
+  scaffold_script: place-files.sh
