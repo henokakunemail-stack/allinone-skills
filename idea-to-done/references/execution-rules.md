@@ -53,6 +53,10 @@ When the project builds on something that already exists (the user's codebase, t
 
 A task left in progress by a dead session is unfinished until proven otherwise. Check the files under its `Files` against its `Accept` line: criteria hold → mark `[x]` with `Note: verified on resume, <evidence>`; partial → continue from what exists; nothing there → start over. Never mark it done on the strength of the previous session's intent.
 
+## Retrying a failed task
+
+When a task fails and you are going to try again — in any mode, sequential or parallel — start the retry from the task's pre-attempt state, not from the wreckage of the failed attempt. A half-written, broken file is state from an attempt that did not work, not a head start; building the second attempt on top of it mixes the two. So revert the task's `Files` first: under version control, check out the pre-task version; without it, restore from a copy you made before starting. This means, for a project not under version control, copying a task's `Files` somewhere outside the project *before* you begin changing them, so the clean version still exists if the attempt fails — at failure time it is already gone. (Parallel mode applies the same rule per worker; see `parallel-execution.md`.)
+
 ## Blocked tasks
 
 Mark `[!]` with the reason in the note. If other tasks do not depend on it, continue with them and return. If everything depends on it, that is a stop-and-ask.
