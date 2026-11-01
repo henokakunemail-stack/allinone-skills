@@ -25,8 +25,14 @@ Roles communicate only through the documents in `docs/`. There are no meetings e
 | Researcher | `researcher.md` | Category is research, or a Phase 2 decision needs evidence first | findings with sources, into DECISIONS or the deliverable |
 | Security Reviewer | `security-reviewer.md` | PRD mentions sensitive data, auth, payments, or asks for a security review — or Phase 4 finds secrets/auth code in the result even though the PRD never mentioned them | security findings in `VERIFICATION.md` |
 | DevOps | `devops.md` | Deployment, CI, containers, or infrastructure is in scope | deployment config and runbook the PRD asks for |
-| Media / Visual Producer | `media-producer.md` | A requirement produces a visual/time-based artifact that is not a software UI: video, audio, image set, poster, slides, animation, brand set | `DESIGN.md` (visual-system or storyboard variant); craft/selection walk in Phase 4 |
+| Media / Visual Producer | `media-producer.md` | A requirement produces a visual/time-based artifact that is not a software UI: video, audio, image set, poster, slides, animation, brand set | `DESIGN.md` (visual-system or storyboard variant); directs the creative specialists below; craft/selection walk in Phase 4 |
+| Scriptwriter | `scriptwriter.md` | The deliverable needs scripted/spoken/displayed words over time: video script, voiceover, ad, podcast, narration, message-bearing captions | the script, aligned to the storyboard beats |
+| Video Editor | `video-editor.md` | Video must be assembled, cut, sequenced, or captioned from footage or scene assets | the edited video (to a new location) + an edit log |
+| Image Editor | `image-editor.md` | Existing images must be edited or processed (retouch, cutout, resize, format, or a batch of these) | the processed images (to a new location) + whole-set verification |
+| Audio / Sound Designer | `audio-designer.md` | The deliverable has an audio dimension: voiceover, music, sound, mixing, or transcription/captioning — gated on capability honesty | the audio/captioned output, or an honest capability note + fallback |
 | Editor / Craft Reviewer | `editor-craft-reviewer.md` | A requirement produces a UI, a document, or other content a person reads or looks at directly | Craft findings in `VERIFICATION.md` (or `CRAFT.md`) |
+
+The media specialists (Scriptwriter, Video Editor, Image Editor, Audio/Sound Designer) are the creative counterpart of the Engineer: each takes one piece of the work the Media/Visual Producer has directed, does only that, verifies it, and reports — same single-task discipline, same refuses against scope creep, fabrication, and overwriting source inputs. The Media/Visual Producer is their lead, holding the direction and storyboard they all work to, exactly as the Tech Lead leads the Engineers.
 
 The rule that makes specialists safe: **no work in the Scope Contract, no specialist.** Without a DevOps role there is nobody to "helpfully" add a Dockerfile.
 
@@ -38,8 +44,8 @@ The rule that makes specialists safe: **no work in the Scope Contract, no specia
 | 1 Discovery | Product Manager |
 | 2 Planning | Product Manager → Tech Lead (+ UI/UX Designer, Media/Visual Producer, Researcher if activated) → Engineering Manager |
 | Gate 1 | Product Manager presents |
-| 3 Execution | Engineering Manager orchestrates; Engineers work; Tech Lead checks integration at wave boundaries; Technical Writer / DevOps / Media Producer as tasks require |
-| 4 Verification | QA Engineer (+ Security Reviewer, UI/UX Designer, Media/Visual Producer, Editor/Craft Reviewer if activated); Engineering Manager turns findings into fix tasks |
+| 3 Execution | Engineering Manager orchestrates; Engineers work; Tech Lead checks integration at wave boundaries; Technical Writer / DevOps as tasks require; for media, the Media/Visual Producer directs and the Scriptwriter / Video Editor / Image Editor / Audio Designer do the craft work |
+| 4 Verification | QA Engineer (+ Security Reviewer, UI/UX Designer, Media/Visual Producer and its specialists, Editor/Craft Reviewer if activated); Engineering Manager turns findings into fix tasks |
 | Gate 2 | QA Engineer presents |
 
 ## Scale: when roles become separate agents
