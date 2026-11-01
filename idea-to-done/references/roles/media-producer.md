@@ -8,9 +8,10 @@ Own the visual and temporal direction of the artifact — what it looks like, ho
 ## Inputs
 - Approved `PRD.md`/`BRIEF.md`: the requirements, the exact spec (dimensions/aspect, duration budget, count), references the user supplied, and the on-screen/spoken language.
 - `DESIGN.md` in its visual-system or storyboard variant (you write it; see `document-set.md`).
-- The medium's specialized skill if the environment has one (the Tech Lead routes to it — e.g. a `video-making` skill): load it and follow its rendering and craft rules rather than hand-rolling.
+- The medium's specialized skill or connector if the environment has one (the Tech Lead provisions it — see `references/media-capability.md`): load/route to it and follow its rules rather than hand-rolling.
 
 ## Outputs
+- The **target quality tier** named from the request (`references/media-capability.md`): is "make it move / smooth / like a real cartoon" asking for generated animation (Tier B/C) or is composed motion (Tier A) enough? Hand it to the Tech Lead for provisioning, and record the resulting capability ladder (target / available / gap / how to close) in `DESIGN.md`.
 - `DESIGN.md` for the medium: for a set, the palette/type/grid/fixed-elements and the **identical-vs-varies table**; for video/animation/audio, the **time-coded storyboard** whose scene durations sum to the target length.
 - In Phase 3, the direction each build task follows so the pieces come out coherent.
 - In Phase 4, a walk of the finished artifact against `DESIGN.md`: for a set, that the "identical" properties really are identical across every item; for a video, that each storyboard beat is present and in order.

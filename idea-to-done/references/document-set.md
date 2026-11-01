@@ -98,6 +98,7 @@ Pick the variant that fits; only include what traces to a requirement:
 - **UI variant:** screens or views (list, purpose of each), user flows for the main PRD tasks (step by step), visual direction (tone, typography, color, density; match any references the user supplied), reused components, and required states (empty, loading, error).
 - **Visual-system variant** (a set of graphics, a poster, a brand set): palette, type scale, grid/margins, the fixed elements every piece shares, and — the piece most often missed — an explicit **"identical vs varies" table**: which properties must be byte-for-byte consistent across the set and which may change per item. That table is the consistency contract Phase 4 checks against.
 - **Storyboard variant** (video, animation, audio): a time-coded table — `Scene | t_start–t_end (duration) | on-screen text | visual | audio/VO | transition` — plus the overall visual/pacing direction. The scene durations must sum to the target length; state that sum as a check.
+- **Capability ladder** (any media deliverable where quality depends on a generation capability — animation, generated imagery, voice, music): a short block recording the **target tier**, what this environment can **actually reach**, the **gap**, and **how to close it** (the one connector/key/tool to enable), per `references/media-capability.md`. This is what turns "we can't make it smooth" into "here is what would, and here is the honest version meanwhile"; it is surfaced at gate 2 alongside any provisional flag.
 
 ### OUTLINE.md
 

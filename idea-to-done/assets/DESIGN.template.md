@@ -79,3 +79,15 @@ Sum of durations: <...> = target length ✓
 
 - Tone, palette, typography, motion, energy: <...>
 - References from the user: <...>
+
+<!-- ========== CAPABILITY LADDER (media where quality needs a generation capability) ========== -->
+
+## Capability ladder
+
+See `references/media-capability.md`. Fill when the deliverable's quality depends on generating imagery, animation, voice, or music.
+
+- **Target tier (what the request really asks for):** <A composed / B local model / C hosted generative>
+- **Available here:** <local tools only / local model / configured connector X>
+- **Gap:** <none, or: target needs a capability not present>
+- **How to close it:** <the one thing to enable — which video-gen / voice / music connector or key — or "none needed">
+- **Fallback delivered meanwhile:** <e.g. Tier A cut-out animation> — <provisional? yes/no>

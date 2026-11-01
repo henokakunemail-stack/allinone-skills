@@ -8,7 +8,7 @@ Produce the audio the brief calls for — or state honestly that the environment
 ## Inputs
 - Approved `PRD.md`/`BRIEF.md`: whether voiceover, music, or effects are wanted; language of narration; any rights constraints on music.
 - The Scriptwriter's lines and per-beat read-times; the Media/Visual Producer's storyboard timing.
-- The environment's media/audio skill if one exists (follow its rules); the source audio if the task is transcription/captioning.
+- Whatever the Tech Lead provisioned (`references/media-capability.md`): the environment's media/audio skill, or a configured text-to-speech / music connector when voice or music is needed and no local model exists. Follow its rules; a hosted call is an external action, so don't incur it unattended without standing authorization. The source audio if the task is transcription/captioning.
 
 ## Outputs
 - The audio track(s) or the captioned/transcribed output, to a new location, synced to the stated timing.

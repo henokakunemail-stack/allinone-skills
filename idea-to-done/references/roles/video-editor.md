@@ -8,7 +8,7 @@ Turn footage and scene assets into the finished cut the storyboard describes —
 ## Inputs
 - The Media/Visual Producer's `DESIGN.md` storyboard: scene order, durations, transitions, where captions and audio sit.
 - The source footage/assets (read-only) and the Scriptwriter's captions/VO timing if any.
-- The environment's media skill (e.g. `video-making`) whose rendering rules you follow rather than hand-rolling ffmpeg.
+- Whatever the Tech Lead provisioned for this tier (`references/media-capability.md`): the environment's media skill (e.g. `video-making`) whose rendering rules you follow, or a configured video-generation connector when the target tier needs generated/smooth animation local tools cannot reach. Route to it rather than hand-rolling; a generated clip is still verified (probe it, watch it), and a hosted call is an external action — do not incur it unattended without standing authorization.
 
 ## Outputs
 - The edited video file, written to a new output location (never over the source), meeting the exact spec (duration, resolution, fps, audio presence).
