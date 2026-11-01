@@ -1,6 +1,6 @@
 # Brief: <deliverable name>
 
-Version: 1.0 · Created: <date> · Category: work-deliverable | content | research | other · Status: draft | approved
+Version: 1.0 · Created: <date> · Category: work-deliverable | content | media | research | other · Status: draft | approved
 
 ## Summary
 
@@ -40,6 +40,10 @@ Version: 1.0 · Created: <date> · Category: work-deliverable | content | resear
 
 ### Assumptions
 - **A1.** <assumption> (reason: <why>)
+
+### Blocked assumptions
+<A gap you cannot resolve by deciding — it needs information, judgment, or a capability you lack (see scope-guard.md). Not an ordinary A-item. If one sits under a core requirement, the deliverable is provisional and this is raised first at gate 2.>
+- **B1.** <gap> — what would resolve it: <watch the footage / ask the user / connect a connector + how>. Honest fallback used: <...>. Deliverable provisional? <yes/no>
 
 ## Source material
 

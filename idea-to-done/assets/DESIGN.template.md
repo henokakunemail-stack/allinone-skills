@@ -86,8 +86,8 @@ Sum of durations: <...> = target length ✓
 
 See `references/media-capability.md`. Fill when the deliverable's quality depends on generating imagery, animation, voice, or music.
 
-- **Target tier (what the request really asks for):** <A composed / B local model / C hosted generative>
-- **Available here:** <local tools only / local model / configured connector X>
-- **Gap:** <none, or: target needs a capability not present>
-- **How to close it:** <the one thing to enable — which video-gen / voice / music connector or key — or "none needed">
-- **Fallback delivered meanwhile:** <e.g. Tier A cut-out animation> — <provisional? yes/no>
+- **Target tier (what the request really asks for):** <A composed / A+ motion-graphics (web/Remotion) / B local model / C hosted generative>
+- **Available here (with detection evidence):** <local tools only / local model / configured connector X> — <how you checked: `node -v`, tool list inspected, `nvidia-smi` absent, etc.>
+- **Gap:** <none / capability gap (tool/model not present) / authorization gap (connector present but spend not authorized)>
+- **How to close it:** <the one thing to enable — which connector/key/tool to connect or install, OR for an authorization gap: user go-ahead + budget. For a paid connector add est. cost & proposed cap. "none needed" if no gap.>
+- **Fallback delivered meanwhile:** <e.g. Tier A cut-out animation / Tier A+ web render> — <provisional? yes/no>

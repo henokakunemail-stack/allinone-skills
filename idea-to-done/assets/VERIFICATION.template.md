@@ -49,6 +49,16 @@ Scope: <what was verified>
 - Expected: <what should happen> (R<n>)
 - Fix: F1
 
+### Capability ladder (media deliverables — surfaced at gate 2)
+
+<Only when the deliverable's quality depended on a generation capability (see media-capability.md). Lead gate 2 with this when the target tier wasn't reached.>
+
+- Target tier: <A composed / A+ motion-graphics / B local model / C hosted generative>
+- Delivered tier: <what was actually produced>
+- Gap: <none / capability gap / authorization gap (available but not authorized)>
+- One thing to enable to reach target: <connector / install / authorization + est. cost & cap>
+- Provisional? <yes/no>
+
 ### Accepted limitations
 
 - <limitation> — reason: <why not fixing now; user agreed on <date>>

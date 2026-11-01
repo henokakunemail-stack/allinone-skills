@@ -54,8 +54,12 @@ def parse_plan(text):
         if m:
             phase, cur = m.group("name").strip(), None
             continue
-        m = TASK_RE.match(line)
-        if not m and TASK_LOOKS_LIKE_RE.match(line):
+        # Tolerate markdown bold around the ID/title (e.g. `- [x] **T1.1** Title` or
+        # `- [x] **T1.1 Title**`): bold markers carry no meaning for parsing, so probe a
+        # copy with them stripped. The original line is kept for field extraction below.
+        probe = line.replace("**", "") if "**" in line else line
+        m = TASK_RE.match(probe)
+        if not m and TASK_LOOKS_LIKE_RE.match(probe):
             unparsed.append((lineno, line.strip()))
         if m:
             cur = {
@@ -117,7 +121,7 @@ def load_plan_text(plan_path):
     the parser is unaffected.
     """
     text = plan_path.read_text(encoding="utf-8")
-    if any(TASK_RE.match(line) for line in text.splitlines()):
+    if any(TASK_RE.match(line.replace("**", "")) for line in text.splitlines()):
         return text, [plan_path]
     phase_files = phase_files_from_index(plan_path, text)
     if not phase_files:
@@ -209,6 +213,12 @@ def first_wave(ready, in_flight_files=()):
 def main(argv):
     as_json = "--json" in argv
     args = [a for a in argv if not a.startswith("--")]
+    # Convenience: if the first argument is itself a plan file (ends in .md and exists,
+    # e.g. `status.py docs/PLAN.md` or a split phase file), treat it as the explicit plan
+    # rather than a project dir — otherwise it was read as a root and looked for
+    # <file>/docs/PLAN.md, a confusing papercut on resume.
+    if args and args[0].endswith(".md") and Path(args[0]).is_file():
+        args = [str(Path(args[0]).parent.parent), args[0]]
     root = Path(args[0]) if args else Path(".")
     explicit = Path(args[1]) if len(args) > 1 else None
 

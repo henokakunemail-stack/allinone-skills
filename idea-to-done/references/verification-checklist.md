@@ -59,6 +59,7 @@ Exercise the result the way its intended user would, end to end.
 
 **Video / audio:**
 - Probe the container objectively: `ffprobe` for duration (within the stated tolerance), resolution/aspect, fps, codec, and presence of the audio stream if one is required; confirm the file is complete, not truncated by a crashed render.
+- **Prove real motion, not a slideshow.** A video that is meant to be animated must actually move: measure the share of pixels that change between *consecutive* frames (decode to grayscale, diff adjacent frames, count pixels changing by more than a small threshold), and confirm it is above a floor and localized to the region that should animate — not a pan of static cards. "It has 4 scenes" is beats-present, not motion; a title that fades in once is not an animated video. Report the per-scene motion figure, and exclude deliberate still holds / cut-to-black frames so they don't mask a dead scene. This is the one check that catches "the animation isn't actually animating".
 - Sample the content: extract one frame per storyboard scene and confirm each required beat is present and in the right order; for audio, listen to / inspect each segment.
 - Say plainly that aesthetic and pacing judgments are *craft*, checked by actually watching/listening (Layer 3b) — they are not reducible to one command and must not be claimed from the container probe alone.
 

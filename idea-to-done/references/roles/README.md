@@ -30,6 +30,9 @@ Roles communicate only through the documents in `docs/`. There are no meetings e
 | Video Editor | `video-editor.md` | Video must be assembled, cut, sequenced, or captioned from footage or scene assets | the edited video (to a new location) + an edit log |
 | Image Editor | `image-editor.md` | Existing images must be edited or processed (retouch, cutout, resize, format, or a batch of these) | the processed images (to a new location) + whole-set verification |
 | Audio / Sound Designer | `audio-designer.md` | The deliverable has an audio dimension: voiceover, music, sound, mixing, or transcription/captioning — gated on capability honesty | the audio/captioned output, or an honest capability note + fallback |
+| Data Analyst | `data-analyst.md` | A requirement needs data analysed to find or state something true (metric, trend, model, chart that must be correct) — not merely displaying data the user already computed | findings as code that was run, with every figure traceable; limits stated |
+| Presentation Designer | `presentation-designer.md` | The deliverable is a slide deck / presentation — owns how approved content splits across slides and reads | slide-by-slide outline + built deck; every claim traced to source |
+| Localization Specialist | `localization-specialist.md` | The deliverable itself must carry more than one locale, or a locale the author is adapting into (translation, multi-language app/doc, regional adaptation) | content per locale, natural and meaning-preserving, formats/direction correct |
 | Editor / Craft Reviewer | `editor-craft-reviewer.md` | A requirement produces a UI, a document, or other content a person reads or looks at directly | Craft findings in `VERIFICATION.md` (or `CRAFT.md`) |
 
 The media specialists (Scriptwriter, Video Editor, Image Editor, Audio/Sound Designer) are the creative counterpart of the Engineer: each takes one piece of the work the Media/Visual Producer has directed, does only that, verifies it, and reports — same single-task discipline, same refuses against scope creep, fabrication, and overwriting source inputs. The Media/Visual Producer is their lead, holding the direction and storyboard they all work to, exactly as the Tech Lead leads the Engineers.
@@ -42,10 +45,10 @@ The rule that makes specialists safe: **no work in the Scope Contract, no specia
 |---|---|
 | 0 Orientation | Engineering Manager (reads PLAN, reports state) |
 | 1 Discovery | Product Manager |
-| 2 Planning | Product Manager → Tech Lead (+ UI/UX Designer, Media/Visual Producer, Researcher if activated) → Engineering Manager |
+| 2 Planning | Product Manager → Tech Lead (+ UI/UX Designer, Media/Visual Producer, Presentation Designer, Researcher if activated) → Engineering Manager |
 | Gate 1 | Product Manager presents |
-| 3 Execution | Engineering Manager orchestrates; Engineers work; Tech Lead checks integration at wave boundaries; Technical Writer / DevOps as tasks require; for media, the Media/Visual Producer directs and the Scriptwriter / Video Editor / Image Editor / Audio Designer do the craft work |
-| 4 Verification | QA Engineer (+ Security Reviewer, UI/UX Designer, Media/Visual Producer and its specialists, Editor/Craft Reviewer if activated); Engineering Manager turns findings into fix tasks |
+| 3 Execution | Engineering Manager orchestrates; Engineers work; Tech Lead checks integration at wave boundaries; Technical Writer / DevOps as tasks require; for media, the Media/Visual Producer directs and the Scriptwriter / Video Editor / Image Editor / Audio Designer do the craft work; Data Analyst computes figures; Presentation Designer builds the deck; Localization Specialist produces each locale |
+| 4 Verification | QA Engineer (+ Security Reviewer, UI/UX Designer, Media/Visual Producer and its specialists, Data Analyst, Presentation Designer, Localization Specialist, Editor/Craft Reviewer if activated); Engineering Manager turns findings into fix tasks |
 | Gate 2 | QA Engineer presents |
 
 ## Scale: when roles become separate agents
@@ -60,7 +63,7 @@ Separating roles into separate agent instances buys real context isolation, whic
 
 **Tie-breaker for a UI that is also tiny.** "A UI pushes you to medium" and "≤ 5 tasks is small" can point opposite ways for a trivial one-screen page (a single landing page, one static view). Resolve it toward **small**: a single, static screen with no real flow does not need separate agents just because it renders in a browser. "A UI makes it medium" is about a UI with more than one screen or a real interaction flow, where a UI/UX Designer and separate QA earn their keep. The Editor/Craft Reviewer still activates for the one screen regardless of tier — craft review is not gated on scale. Record the call in `DECISIONS.md` either way.
 
-**Plan/schedule deliverables may merge Phases 2 and 3.** When the deliverable is itself a plan, schedule, calendar, or outline, designing it in Phase 2 *is* most of the build — Phase 3 "execution" collapses to transcribing the grid already designed. Do not stretch a near-empty execution phase just to look like a software build; let Phases 2 and 3 merge and note it in `DECISIONS.md`. Verification (Phase 4) still happens — a calendar is still checked for date continuity, cadence, and correctness (see `verification-checklist.md`).
+**Plan/schedule deliverables may merge Phases 2 and 3.** When the deliverable is itself a plan, schedule, calendar, or outline, designing it in Phase 2 *is* most of the build — Phase 3 "execution" collapses to transcribing the grid already designed. Do not stretch a near-empty execution phase just to look like a software build; let Phases 2 and 3 merge and note it in `DECISIONS.md`. Verification (Phase 4) still happens — a calendar is still checked for date continuity, cadence, and correctness (see `../verification-checklist.md`).
 
 If the environment cannot spawn agents at all, every size runs as hats. The cards still change how each phase thinks, which is most of the value.
 
