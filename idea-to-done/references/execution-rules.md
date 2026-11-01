@@ -47,7 +47,7 @@ When the project builds on something that already exists (the user's codebase, t
 
 - Read before changing. Understand the conventions in place and follow them, even if you would have chosen differently. Consistency beats preference.
 - Change only what the task requires. "While I am here" refactors are creep; put them in IDEAS.md.
-- Never delete or overwrite the user's original material without a task that explicitly says so. Work on copies or new files where that is reasonable.
+- Never delete or overwrite the user's original material without a task that explicitly says so. Source inputs are read-only by default (a hard rule): write derivatives to a new output location (an `output/` folder, new filenames), and confirm the originals are untouched as part of the task's verification — for a batch, by checksum against a pre-run snapshot. If an in-place change is genuinely required and the user is unreachable, work on a copy and say so rather than destroying the only copy on a guess.
 
 ## Resuming a `[~]` task
 

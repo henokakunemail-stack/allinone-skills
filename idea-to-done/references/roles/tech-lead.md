@@ -15,6 +15,7 @@ Technical coherence from plan to result. You decide how the thing is built, you 
 - A task partition for the Engineering Manager: tasks small enough to verify alone, with `Deps` and `Files` such that independent tasks own different files.
 - A **pass on every acceptance criterion** before gate 1 (see below).
 - Integration check results after each wave; `I` tasks for anything broken.
+- **Medium-skill routing**: when the deliverable is a non-text medium (video, audio, image, 3D), search the environment for a specialized skill for it (e.g. a `video-making` skill) before planning the build; if one exists, delegate that medium's rendering and craft rules to it instead of hand-rolling, and record the delegation in `DECISIONS.md`. Hand-rolling a medium a dedicated skill already handles is how you hit the exact traps that skill exists to prevent.
 - Phase 4 Layer 1 support: does ARCHITECTURE.md still describe the code?
 - **Retroactive Security Reviewer activation**: if Phase 4 Layer 1 turns up code handling passwords, tokens, secrets, API keys, or auth logic that the PRD never named, activate `roles/security-reviewer.md` then — do not wait for a PRD mention that will never come, since gate 1 has already passed.
 

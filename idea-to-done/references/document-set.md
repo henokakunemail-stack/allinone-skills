@@ -90,17 +90,29 @@ A tree of the project with one line per folder and per significant file saying w
 
 ### DESIGN.md
 
-**Create when:** there is a user interface of any kind (web, mobile, desktop, CLI with meaningful interaction). Do not create it for a backend-only or script project.
-**Written:** Phase 2. **Read by:** UI tasks in Phase 3, Phase 4 functional testing.
+**Create when:** the deliverable has a deliberate visual or temporal form — a user interface (web, mobile, desktop, CLI with meaningful interaction), **or** a visual/time-based artifact: a video, a set of images, a poster, a slide deck, an animation, a brand set. Do not create it for a backend-only or script project, or a pure prose document. Written by the UI/UX Designer for a UI, by the Media/Visual Producer for a media artifact.
+**Written:** Phase 2. **Read by:** UI/media tasks in Phase 3, Phase 4 functional + craft testing.
 
-Sections: screens or views (list, purpose of each), user flows for the main tasks from the PRD (step by step), visual direction (tone, typography, color, density; reference existing material the user supplied), components reused across screens, and states that must exist (empty, loading, error). Only screens that trace to a requirement.
+Pick the variant that fits; only include what traces to a requirement:
+
+- **UI variant:** screens or views (list, purpose of each), user flows for the main PRD tasks (step by step), visual direction (tone, typography, color, density; match any references the user supplied), reused components, and required states (empty, loading, error).
+- **Visual-system variant** (a set of graphics, a poster, a brand set): palette, type scale, grid/margins, the fixed elements every piece shares, and — the piece most often missed — an explicit **"identical vs varies" table**: which properties must be byte-for-byte consistent across the set and which may change per item. That table is the consistency contract Phase 4 checks against.
+- **Storyboard variant** (video, animation, audio): a time-coded table — `Scene | t_start–t_end (duration) | on-screen text | visual | audio/VO | transition` — plus the overall visual/pacing direction. The scene durations must sum to the target length; state that sum as a check.
 
 ### OUTLINE.md
 
-**Create when:** the deliverable is a document, presentation, course, report, or other non-software artifact.
+**Create when:** the deliverable is prose — a document, report, proposal, article, course, or SOP. For a deliverable that is structured data rather than prose (a calendar, a schedule, a table, a dataset), OUTLINE.md describes the *structure* only (columns, row meaning, ordering) and the filled grid lives in the deliverable file itself (below), not inside OUTLINE.md.
 **Written:** Phase 2. **Read by:** Phase 3 writing tasks, Phase 4 review.
 
 The structure of the deliverable section by section: purpose of each section, key points it must make, source material it draws on, approximate length. Each section traces to a requirement or success criterion.
+
+**For an SOP, policy, or runbook**, the outline should carry the sections that make a procedure usable rather than a procedural essay: a document-control header (owner, approver, effective date, revision history), purpose, scope, roles/responsibilities (a RACI where handoffs matter), definitions, prerequisites/trigger, the numbered procedure itself, an exception/rollback path, and references to the policies it sits under. An SOP that is just numbered prose with none of these is the common failure.
+
+### The deliverable file itself (non-software)
+
+For software the deliverable *is* the code tree (STRUCTURE.md maps it). For a non-software deliverable — a proposal, a calendar, a video, an image set — the finished artifact is a named file (or folder) that is **not** one of the `docs/` planning files: e.g. `proposal.md`, `content-calendar.md`, `output/quote-01.png … quote-05.png`, `electricity_tips.mp4`. Name it in `PLAN.md`'s document index and in a task's `Files`, so it is tracked and so `scripts/status.py` and Phase 4 can find it. Do not pour the actual deliverable into PLAN.md or OUTLINE.md because it happens to be text — those are planning documents, not the thing being delivered.
+
+**When the deliverable is itself a plan or schedule** (a content calendar, a roadmap, a release schedule), it is NOT this skill's own `PLAN.md`. `PLAN.md` tracks the work of *building* the deliverable; the user's schedule is its own deliverable file. Do not give the deliverable's entries task checkboxes (`[ ]`/`[x]`) — those mean build-progress, and a reader (or `status.py`) will read "all tasks done" as "the month shipped" when nothing has been published. For such a deliverable, Phase 2 and Phase 3 may legitimately merge: designing the schedule in planning IS most of the build, and forcing a separate near-empty execution phase is ceremony, not structure (note the merge in DECISIONS.md).
 
 ## Keeping documents honest
 

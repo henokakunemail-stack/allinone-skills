@@ -46,12 +46,35 @@ Exercise the result the way its intended user would, end to end.
 - Read it start to finish as the intended reader, without the plan open. Does it achieve the outcome in the PRD/BRIEF?
 - Check it against OUTLINE.md: every section present, every key point made, no sections that are not in the outline.
 - Check format constraints (length, template, tone) from the requirements.
-- Check every factual claim, number, and citation against its source.
+- Check every factual claim, number, and citation against its source — *where the document asserts real facts*. A template, example, or SOP for an unspecified environment is made of placeholders by design; do not flag placeholders as unsourced facts (see the placeholder rule in `scope-guard.md`).
+
+**Procedure / SOP / runbook** (a document whose point is that someone follows it):
+- Reading it is not enough; *walk each step as the executor*. Every step has an explicit actor and a concrete action; no step depends on something not yet established; the exception/failure path exists. A step a stranger could not perform without asking the author is a defect.
+- Check the document-control elements are present and consistent (owner, approver, effective date, revision history) if the deliverable is meant to be a controlled document.
 
 **Research:**
 - Does the output answer the decision the research was meant to feed?
 - Are the sources within the user's constraints (trusted, recent enough)?
 - Are conclusions supported by the cited material, not by extrapolation?
+
+**Video / audio:**
+- Probe the container objectively: `ffprobe` for duration (within the stated tolerance), resolution/aspect, fps, codec, and presence of the audio stream if one is required; confirm the file is complete, not truncated by a crashed render.
+- Sample the content: extract one frame per storyboard scene and confirm each required beat is present and in the right order; for audio, listen to / inspect each segment.
+- Say plainly that aesthetic and pacing judgments are *craft*, checked by actually watching/listening (Layer 3b) — they are not reducible to one command and must not be claimed from the container probe alone.
+
+**Batch / collection** (many files from one operation):
+- Count: assert items-in == items-out, with no files dropped, duplicated, or extra.
+- Invariant over *all* items, not a sample: run the required property (every image 1000×1000; every file non-zero and non-corrupt) across the whole set programmatically.
+- Worst case on purpose: open the hardest item (the trickiest cutout, the most extreme aspect), not the easiest — the one you'd eyeball is the one that passes.
+- Originals untouched: confirm the source inputs are byte-for-byte unchanged (checksum against a pre-run snapshot).
+
+**Set with a consistency bar** (a series meant to look like a set):
+- Diff every item against item 1 on the properties that must be identical (size, palette share, fixed-element positions); any field that should match and does not is an issue. The "identical vs varies" table in `DESIGN.md` says which fields those are.
+
+**Schedule / calendar / dataset** (structured-data deliverable):
+- Counts match the stated cadence (e.g. 4 long + 12 short over 4 weeks).
+- Dates are continuous and complete (all N days present, none missing or duplicated), and weekday labels match a real calendar — compute it, do not eyeball.
+- Handle the remainder honestly (30 days is not a whole number of weeks); entries are unique / non-colliding.
 
 ## Layer 3: Edge cases and failure modes
 
@@ -68,9 +91,9 @@ Try to make it fail. For each, record what you did and what happened.
 
 Not every item applies to every project. Skip what does not apply and say so; do not pad the report.
 
-## Layer 3b: Craft, when there is a UI or written content
+## Layer 3b: Craft, when a person looks at or reads the result
 
-Fidelity (Layer 1) and function (Layer 2) are not the same question as craft: a result can trace to every requirement and still read or look like an unrevised first draft. If a requirement produced a UI, a document, or other content a person reads or looks at directly, the **Editor/Craft Reviewer** (`roles/editor-craft-reviewer.md`) reviews it the way its real audience would — for a UI, loading a dedicated visual-design skill if the environment has one, rather than inventing design judgment from scratch — and records findings in `VERIFICATION.md` under a Craft heading. This is a quality check, not a scope check: a craft finding never adds something new, only improves how an already-approved thing is made.
+Fidelity (Layer 1) and function (Layer 2) are not the same question as craft: a result can trace to every requirement and still read or look like an unrevised first draft. If a requirement produced a UI, a document, a video, an image set, or other content a person experiences directly, the **Editor/Craft Reviewer** (`roles/editor-craft-reviewer.md`) reviews it the way its real audience would — *watching* the video, *looking* at the images as a set, reading the document — loading a design skill appropriate to the medium if the environment has one (`frontend-design` for a UI, a graphic or video skill for those media; not `frontend-design` forced onto a poster or a video), and otherwise applying named craft dimensions directly: typography, color, hierarchy, spacing, pacing, and — for a set — consistency. Findings go in `VERIFICATION.md` under a Craft heading. This is a quality check, not a scope check: a craft finding never adds something new, only improves how an already-approved thing is made. This is also where subjective judgments the objective layers cannot reach are recorded honestly — including, where a selection could not truly be judged (which clip is a "highlight"), an **"unverifiable — needs human/subjective judgment"** outcome surfaced at gate 2 rather than passed silently.
 
 ## Layer 4: Report and fix
 

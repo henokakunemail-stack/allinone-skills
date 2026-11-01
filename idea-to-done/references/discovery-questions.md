@@ -41,6 +41,13 @@ Good to know:
 - Length or time limit?
 - Tone: formal, casual, persuasive, neutral?
 
+**If this is an SOP, policy, runbook, or other procedure document**, also pin the things that make a procedure usable rather than a procedural essay (ask only the ones the user has not answered):
+- **W5. Owner and approver**: Who owns this document and who signs off that it is correct? What is its effective date and review cycle?
+- **W6. Roles**: Who performs each step — one role, or several handing off (a RACI)? The reader must know who does what.
+- **W7. When it fails**: What should happen when a step cannot be completed, or an exception arises — stop, escalate, roll back?
+- **W8. Authority**: Which existing policies, standards, or systems does this procedure sit under or reference?
+- **W9. Real stack or template**: Is this for your actual, specific systems (name them), or a reusable template for an unspecified environment? (If the latter, system names in the result are placeholders, not claims — see `scope-guard.md`.)
+
 ## Category: content
 
 Assumption killers:
@@ -48,6 +55,21 @@ Assumption killers:
 - **C2. Channel**: Where will it live (blog, docs site, course platform, social, print)? That fixes length, structure, and format.
 - **C3. Voice**: Should it sound like you? Do you have examples of your writing I should match?
 - **C4. Completeness**: Outline, draft, or publish-ready? Do you want to review between stages?
+
+## Category: media (video, audio, images, graphics, motion)
+
+For anything whose deliverable is a visual or time-based artifact — a video, a set of images, a poster, an animation, audio — the questions that de-risk it are different from prose. Start with a capability-honesty check, then the killers:
+
+- **M0. Capability honesty (answer this yourself before planning, not a user question)**: what generation capability does this environment actually have for this medium? If there is no image/video/audio *model* and only programmatic composition (text on backgrounds, ffmpeg cuts, drawn shapes), say so as an assumption and set expectations — never imply photographic, illustrated, or voiced output you cannot actually produce. If a specialized environment skill exists for the medium (e.g. `video-making`), note that you will use it (see Tech Lead routing in `document-set.md`/SKILL.md Phase 2).
+- **M1. Exact spec**: dimensions/aspect ratio (1080×1920 vertical, 1080×1080 square, 16:9…), and for video/audio the duration budget. These are the hard constraints the whole thing must hit.
+- **M2. Count and what varies**: one artifact or a set? For a set, which properties must be *identical* across items (palette, layout, fixed elements) and which may *vary* (the quote text, the photo)? This "identical vs varies" line is the consistency contract.
+- **M3. Narration vs on-screen**: voiceover, on-screen captions/text, or both? Any music — and if so, who clears the rights?
+- **M4. Visual style**: palette, mood, typography, brand/handle assets to match, references the user likes. For a video, the pacing/energy.
+- **M5. On-screen / spoken language**: what language the audience sees or hears (distinct from the conversation's language).
+
+Good to know:
+- Where it will be posted (platform fixes aspect, length, safe margins)?
+- Any text that must appear verbatim (CTA, handle, legal line)?
 
 ## Category: research
 

@@ -25,6 +25,7 @@ Roles communicate only through the documents in `docs/`. There are no meetings e
 | Researcher | `researcher.md` | Category is research, or a Phase 2 decision needs evidence first | findings with sources, into DECISIONS or the deliverable |
 | Security Reviewer | `security-reviewer.md` | PRD mentions sensitive data, auth, payments, or asks for a security review — or Phase 4 finds secrets/auth code in the result even though the PRD never mentioned them | security findings in `VERIFICATION.md` |
 | DevOps | `devops.md` | Deployment, CI, containers, or infrastructure is in scope | deployment config and runbook the PRD asks for |
+| Media / Visual Producer | `media-producer.md` | A requirement produces a visual/time-based artifact that is not a software UI: video, audio, image set, poster, slides, animation, brand set | `DESIGN.md` (visual-system or storyboard variant); craft/selection walk in Phase 4 |
 | Editor / Craft Reviewer | `editor-craft-reviewer.md` | A requirement produces a UI, a document, or other content a person reads or looks at directly | Craft findings in `VERIFICATION.md` (or `CRAFT.md`) |
 
 The rule that makes specialists safe: **no work in the Scope Contract, no specialist.** Without a DevOps role there is nobody to "helpfully" add a Dockerfile.
@@ -35,10 +36,10 @@ The rule that makes specialists safe: **no work in the Scope Contract, no specia
 |---|---|
 | 0 Orientation | Engineering Manager (reads PLAN, reports state) |
 | 1 Discovery | Product Manager |
-| 2 Planning | Product Manager → Tech Lead (+ UI/UX Designer, Researcher if activated) → Engineering Manager |
+| 2 Planning | Product Manager → Tech Lead (+ UI/UX Designer, Media/Visual Producer, Researcher if activated) → Engineering Manager |
 | Gate 1 | Product Manager presents |
-| 3 Execution | Engineering Manager orchestrates; Engineers work; Tech Lead checks integration at wave boundaries; Technical Writer / DevOps as tasks require |
-| 4 Verification | QA Engineer (+ Security Reviewer, UI/UX Designer, Editor/Craft Reviewer if activated); Engineering Manager turns findings into fix tasks |
+| 3 Execution | Engineering Manager orchestrates; Engineers work; Tech Lead checks integration at wave boundaries; Technical Writer / DevOps / Media Producer as tasks require |
+| 4 Verification | QA Engineer (+ Security Reviewer, UI/UX Designer, Media/Visual Producer, Editor/Craft Reviewer if activated); Engineering Manager turns findings into fix tasks |
 | Gate 2 | QA Engineer presents |
 
 ## Scale: when roles become separate agents
@@ -52,6 +53,8 @@ Separating roles into separate agent instances buys real context isolation, whic
 | **Large** | > 15 tasks, or ≥ 2 independent task clusters | Full office: separate agents for every active role, parallel waves of Engineers (see `../parallel-execution.md`). |
 
 **Tie-breaker for a UI that is also tiny.** "A UI pushes you to medium" and "≤ 5 tasks is small" can point opposite ways for a trivial one-screen page (a single landing page, one static view). Resolve it toward **small**: a single, static screen with no real flow does not need separate agents just because it renders in a browser. "A UI makes it medium" is about a UI with more than one screen or a real interaction flow, where a UI/UX Designer and separate QA earn their keep. The Editor/Craft Reviewer still activates for the one screen regardless of tier — craft review is not gated on scale. Record the call in `DECISIONS.md` either way.
+
+**Plan/schedule deliverables may merge Phases 2 and 3.** When the deliverable is itself a plan, schedule, calendar, or outline, designing it in Phase 2 *is* most of the build — Phase 3 "execution" collapses to transcribing the grid already designed. Do not stretch a near-empty execution phase just to look like a software build; let Phases 2 and 3 merge and note it in `DECISIONS.md`. Verification (Phase 4) still happens — a calendar is still checked for date continuity, cadence, and correctness (see `verification-checklist.md`).
 
 If the environment cannot spawn agents at all, every size runs as hats. The cards still change how each phase thinks, which is most of the value.
 

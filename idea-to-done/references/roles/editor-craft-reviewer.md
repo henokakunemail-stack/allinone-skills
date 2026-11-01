@@ -15,7 +15,7 @@ Judge the craft of what was actually built against the kind of thing it is, and 
 - The result itself: the running interface, the document, the content — experienced the way its real audience would, not read as a diff or a file listing.
 - The requirement(s) and any references the user supplied (screenshots, apps they like, writing samples, a style guide, a brand). The user's own references are the standard; this role does not substitute its own taste for them.
 - `DESIGN.md` if one exists (for UI), `OUTLINE.md` if one exists (for documents/content).
-- For UI work specifically: before judging or touching visual craft, load a dedicated visual-design skill if one is available in the environment (for example a skill the user's tools call `frontend-design` or similar) rather than inventing design principles from scratch. This role's job is to apply a real design discipline, not to guess at one.
+- Before judging visual craft, load a design skill *appropriate to the medium* if the environment has one — `frontend-design` for a UI, a graphic/brand/layout skill for static graphics, a video/motion skill for video — rather than inventing design principles from scratch. `frontend-design` is for UIs; do not force it onto a poster or a video. If no skill fits the medium, apply named craft dimensions directly — **typography, color, hierarchy, spacing, and (for a set) consistency** — instead of UI heuristics. This role's job is to apply a real design discipline suited to what is actually being made.
 
 ## Outputs
 
